@@ -1,0 +1,200 @@
+# depslib dependency file v1.0
+1626955631 source:e:\pastas\ufsm copia\5 semestre\cg\p1\trab1gilsongarcia\src\gl_canvas2d.cpp
+	"gl_canvas2d.h"
+	<GL/glut.h>
+
+1603974868 e:\pastas\ufsm copia\5 semestre\cg\p1\trab1gilsongarcia\src\gl_canvas2d.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	"Vector2.h"
+
+1426372440 e:\pastas\ufsm copia\5 semestre\cg\p1\trab1gilsongarcia\include\gl\glut.h
+	"freeglut_std.h"
+
+1437579942 e:\pastas\ufsm copia\5 semestre\cg\p1\trab1gilsongarcia\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1426372440 e:\pastas\ufsm copia\5 semestre\cg\p1\trab1gilsongarcia\include\gl\freeglut_ext.h
+	<stdarg.h>
+
+1589217858 e:\pastas\ufsm copia\5 semestre\cg\p1\trab1gilsongarcia\src\vector2.h
+
+1589218349 source:e:\pastas\ufsm copia\5 semestre\cg\p1\trab1gilsongarcia\src\relogio.cpp
+	"Relogio.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+
+1193164156 e:\pastas\ufsm copia\5 semestre\cg\p1\trab1gilsongarcia\src\relogio.h
+	"gl_canvas2d.h"
+
+1626955631 source:e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\gl_canvas2d.cpp
+	"gl_canvas2d.h"
+	<GL/glut.h>
+
+1680984595 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\gl_canvas2d.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	"Vector2.h"
+
+1426372440 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\include\gl\glut.h
+	"freeglut_std.h"
+
+1437579942 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1426372440 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\include\gl\freeglut_ext.h
+	<stdarg.h>
+
+1589217858 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\vector2.h
+
+1681071720 source:e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<list>
+	"gl_canvas2d.h"
+	"Retangulo.h"
+	"Figura.h"
+	"Bola.h"
+	"Relogio.h"
+	"Botao.h"
+	"ToolBar.h"
+	"constants.h"
+
+1681071821 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
+	"Figura.h"
+
+1681071821 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
+
+1680625998 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\bola.h
+	"gl_canvas2d.h"
+
+1193164156 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\relogio.h
+	"gl_canvas2d.h"
+
+1681069576 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\botao.h
+	"gl_canvas2d.h"
+	"constants.h"
+
+1680985080 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
+
+1589218349 source:e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\relogio.cpp
+	"Relogio.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+
+1681071896 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
+	"Figura.h"
+	"Retangulo.h"
+	"Botao.h"
+	<list>
+	<vector>
+	<cmath>
+
+1626955631 source:g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\gl_canvas2d.cpp
+	"gl_canvas2d.h"
+	<GL/glut.h>
+
+1680984595 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\gl_canvas2d.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<string.h>
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	"Vector2.h"
+
+1426372440 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\include\gl\glut.h
+	"freeglut_std.h"
+
+1437579942 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\include\gl\freeglut_std.h
+	<windows.h>
+	<EGL/egl.h>
+	<GLES/gl.h>
+	<GLES2/gl2.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1426372440 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\include\gl\freeglut_ext.h
+	<stdarg.h>
+
+1589217858 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\vector2.h
+
+1681153485 source:g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
+	<GL/glut.h>
+	<GL/freeglut_ext.h>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<list>
+	"gl_canvas2d.h"
+	"Retangulo.h"
+	"Figura.h"
+	"Bola.h"
+	"Relogio.h"
+	"Botao.h"
+	"ToolBar.h"
+	"constants.h"
+
+1681090845 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
+	"Figura.h"
+
+1681090774 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
+
+1680625998 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\bola.h
+	"gl_canvas2d.h"
+
+1193164156 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\relogio.h
+	"gl_canvas2d.h"
+
+1681069576 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\botao.h
+	"gl_canvas2d.h"
+	"constants.h"
+
+1681152453 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
+
+1681090977 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
+	"Figura.h"
+	"Retangulo.h"
+	"Botao.h"
+	<list>
+	<vector>
+	<cmath>
+
+1589218349 source:g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\relogio.cpp
+	"Relogio.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+
