@@ -72,7 +72,7 @@
 
 1589217858 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\vector2.h
 
-1681071720 source:e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
+1681153491 source:e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -88,10 +88,13 @@
 	"ToolBar.h"
 	"constants.h"
 
-1681071821 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
+1681331425 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
+	<vector>
 	"Figura.h"
+	"constants.h"
+	"Botao.h"
 
-1681071821 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
+1681331182 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
 
 1680625998 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\bola.h
 	"gl_canvas2d.h"
@@ -99,11 +102,11 @@
 1193164156 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\relogio.h
 	"gl_canvas2d.h"
 
-1681069576 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\botao.h
+1681331372 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\botao.h
 	"gl_canvas2d.h"
 	"constants.h"
 
-1680985080 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
+1681331436 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
 
 1589218349 source:e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\relogio.cpp
 	"Relogio.h"
@@ -111,7 +114,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1681071896 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
+1681331393 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
 	"Figura.h"
 	"Retangulo.h"
 	"Botao.h"
@@ -167,10 +170,13 @@
 	"ToolBar.h"
 	"constants.h"
 
-1681090845 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
+1681331419 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
+	<vector>
 	"Figura.h"
+	"constants.h"
+	"Botao.h"
 
-1681090774 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
+1681331174 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
 
 1680625998 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\bola.h
 	"gl_canvas2d.h"
@@ -178,13 +184,13 @@
 1193164156 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\relogio.h
 	"gl_canvas2d.h"
 
-1681069576 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\botao.h
+1681331365 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\botao.h
 	"gl_canvas2d.h"
 	"constants.h"
 
-1681152453 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
+1681339282 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
 
-1681090977 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
+1681331383 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
 	"Figura.h"
 	"Retangulo.h"
 	"Botao.h"

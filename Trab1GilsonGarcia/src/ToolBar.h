@@ -99,7 +99,7 @@ public:
     }
 
     float getMngSessionWidth() {
-        const int mngColumns = trunc(managementButtonsLabel.size() / 2);
+        const int mngColumns = trunc((managementButtonsLabel.size() + 1) / 2);
         return mngColumns * BTN_WIDTH_LG + mngColumns * PADDING + MARGIN_LEFT;
     }
 

@@ -14,5 +14,7 @@
 
 // Cores
 
+#define BOUNDING_BTN_SIZE 10
+
 
 #endif // CONSTANTS_H_INCLUDED
