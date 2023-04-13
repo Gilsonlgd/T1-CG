@@ -34,11 +34,8 @@
 
 using namespace std;
 
-Figura *figura = NULL;
+Figura *newFigura = NULL;
 Retangulo *rect = NULL;
-Bola    *b = NULL;
-Relogio *r = NULL;
-Botao   *bt = NULL; //se a aplicacao tiver varios botoes, sugiro implementar um manager de botoes.
 ToolBar *toolBar = NULL;
 list<Figura*> shapesList;
 
@@ -47,6 +44,7 @@ int opcao  = 50;
 int screenWidth = 1200, screenHeight = 700; //largura e altura inicial da tela . Alteram com o redimensionamento de tela.
 int mouseX, mouseY; //variaveis globais do mouse para poder exibir dentro da render().
 bool isDragging = false;
+bool isCTRLdown = false;
 bool criarFigura = false;
 
 
@@ -57,16 +55,6 @@ void DrawMouseScreenCoords()
    CV::text(10,300, str);
    sprintf(str, "Screen: (%d,%d)", screenWidth, screenHeight);
    CV::text(10,320, str);
-}
-
-void DrawCircle()
-{
-   if (b->getVisible()) {
-      CV::color(10);
-      float tam = b->getTam();
-      CV::translate(b->getX(), b->getY());
-      CV::rectFill(Vector2(0,0), Vector2(tam, tam));
-   }
 }
 
 void DrawShapes()
@@ -112,56 +100,91 @@ void keyboard(int key)
       case DELETE:
         handleDeleteSelectedShapes();
       break;
-
-
+      case CTRL:
+        isCTRLdown = true;
+      break;
    }
 }
 
-//funcao chamada toda vez que uma te cla for liberada
+//funcao chamada toda vez que uma tecla for liberada
 void keyboardUp(int key)
 {
    printf("\nLiberou: %d" , key);
+   switch(key)
+   {
+      case CTRL:
+        isCTRLdown = false;
+      break;
+   }
 }
-
 
 void handleCreateShape(float x, float y)
 {
-   if (criarFigura && !figura->isVisible()) {
-      shapesList.push_back(figura);
-      figura->setVisible(x, y);
+   if (criarFigura && !newFigura->isVisible()) {
+      shapesList.push_back(newFigura);
+      newFigura->setVisible(x, y);
       criarFigura = false;
    }
 
    Figura* fig = toolBar->checkShapeButtonClicked(x, y);
    if (fig != NULL) {
-      figura = fig;
+      newFigura = fig;
       criarFigura = true;
    }
 }
 
 void handleStartDragShape(float x, float y)
-{
-   if (figura->hasCollided(x,y)) {
-      figura->setOffset(x, y);
+{  
+   bool hasSomeCollision = false;
+   for (auto shape : shapesList) {
+      if (shape->hasCollided(x, y)) {
+         hasSomeCollision = true;
+         break;
+      }  
+   }
+
+   if (hasSomeCollision) {
+      for (auto shape : shapesList) {
+         if (shape->isSelected()) {
+            shape->setOffset(x, y);
+         }
+      }
       isDragging = true;
    }
 }
 
 void handleDragShape(float x, float y)
 {
-   if(figura->isVisible() && isDragging) {
-      figura->setMousePosition(x,y);
+   for (auto shape : shapesList) {
+      if(shape->isSelected() && isDragging) {
+         shape->setMousePosition(x,y);
+      }
    }
 }
 
-void handleSelectShape(float x, float y)
+void handleShapesSelection(float x, float y)
 {
-   for (auto shape : shapesList) {
-      shape->setUnselected();
-      if (shape->hasCollided(x, y)) {
-         shape->setSelected();
-         figura = shape;
+   list<Figura*> auxList = {};
+   auto listBegin = shapesList.begin();
+   auto listEnd = shapesList.end();
+
+   if(!isCTRLdown) {
+      for (auto shape : shapesList) {
+         shape->setUnselected();
       }
+   }
+
+   for (auto shape = prev(listEnd); shape != prev(listBegin); shape--){
+      if ( (*shape)->hasCollided(x, y) ) {
+         shapesList.erase(shape);
+         (*shape)->setSelected();
+         auxList.push_front(*shape);
+         break;
+      } 
+   }
+
+   for (auto shape : auxList) {
+      shapesList.push_back(shape);
    }
 }
 //funcao para tratamento de mouse: cliques, movimentos e arrastos
@@ -177,8 +200,10 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
    if( state == 0 ) //clicou
    {
       handleCreateShape(x, y);
-      handleSelectShape(x, y);
+      handleShapesSelection(x, y);
       handleStartDragShape(x, y);
+      //handleResizeShape(x,y);
+      //handleChangeShapeColor(x,y);
    }
 
    if (isDragging) handleDragShape(x, y);
@@ -186,11 +211,8 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
 
 int main(void)
 {
-   b = new Bola(120);
-   r = new Relogio();
-   rect = new Retangulo(60, 60);
    toolBar = new ToolBar(0, 0, screenWidth, 100);
-   figura = new Figura();
+   newFigura = new Figura();
 
    CV::init(&screenWidth, &screenHeight, "");
    CV::run();

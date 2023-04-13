@@ -3,6 +3,7 @@
 
 // Teclado
 #define DELETE 127
+#define CTRL 214
 
 // Strings
 #define CHAR_WIDTH 10       // largura em pixeis de um caracter
@@ -11,10 +12,9 @@
 // Geometria
 #define PI 3.14159265359    // a constante
 #define NUM_SEGMENTS 32     // num de segmentos triangulares para criar um semi-circulo
+#define BOUNDING_BTN_SIZE 8
 
 // Cores
-
-#define BOUNDING_BTN_SIZE 10
 
 
 #endif // CONSTANTS_H_INCLUDED
