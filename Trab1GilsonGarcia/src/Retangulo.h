@@ -1,10 +1,8 @@
 #ifndef RETANGULO_H_INCLUDED
 #define RETANGULO_H_INCLUDED
 
-#include <vector>
 #include "Figura.h"
 #include "constants.h"
-#include "Botao.h"
 
 #define LEFT_SIDE 0
 #define RIGHT_SIDE 1
@@ -16,8 +14,6 @@ using namespace std;
 class Retangulo : public Figura {
     float width;
     float height;
-    float offsetX, offsetY;
-    vector<Botao*> boundingButtons;
 
 protected:
     void createBoundingButtons() {
@@ -80,24 +76,10 @@ public:
         if(selected) drawBoundingBox();
     }
 
-    void setWidth(float width) {
-        this->width = width;
-    }
-    void setHeight(float height) {
-        this->height = height;
-    }
-
-    float getWidth(){
-        return width;
-    }
-    float getHeight(){
-        return height;
-    }
-
-    float getCenterX(){
+    float getCenterX() override{
         return width/2;
     }
-    float getCenterY(){
+    float getCenterY() override{
         return height/2;
     }
 
@@ -112,6 +94,8 @@ public:
     }
 
     bool hasCollided(int x, int y) override {
+        if (selectedBoundingButton >= 0 && selected) return false;
+
         if( x >= this->x && x <= (this->x + width) && y >= this->y && y <= (this->y + height) )
         {
             return true;
@@ -122,6 +106,20 @@ public:
     void setMousePosition(float mx, float my) override {
         x = mx - offsetX;
         y = my - offsetY;
+    }
+
+    void resize(float mx, float my) override {
+        if (selectedBoundingButton == RIGHT_SIDE) {
+            width = mx - x;
+        } else if (selectedBoundingButton == LEFT_SIDE) {
+            width = width + x - mx;
+            x = mx;
+        } else if (selectedBoundingButton == BOTTOM_SIDE) {
+            height = my - y;
+        } else if (selectedBoundingButton == TOP_SIDE) {
+            height = height + y - my;
+            y = my;
+        }
     }
 };
 

@@ -1,8 +1,11 @@
 #ifndef CONSTANTS_H_INCLUDED
 #define CONSTANTS_H_INCLUDED
 
+//Botões
+#define BOUNDING_BTN_SIZE 8
+#define NO_SELECTION -1
 // Teclado
-#define DELETE 127
+#define DEL 127
 #define CTRL 214
 
 // Strings
@@ -12,7 +15,7 @@
 // Geometria
 #define PI 3.14159265359    // a constante
 #define NUM_SEGMENTS 32     // num de segmentos triangulares para criar um semi-circulo
-#define BOUNDING_BTN_SIZE 8
+
 
 // Cores
 

@@ -35,6 +35,7 @@
 using namespace std;
 
 Figura *newFigura = NULL;
+Figura *shapeToResize = NULL;
 Retangulo *rect = NULL;
 ToolBar *toolBar = NULL;
 list<Figura*> shapesList;
@@ -44,6 +45,7 @@ int opcao  = 50;
 int screenWidth = 1200, screenHeight = 700; //largura e altura inicial da tela . Alteram com o redimensionamento de tela.
 int mouseX, mouseY; //variaveis globais do mouse para poder exibir dentro da render().
 bool isDragging = false;
+bool isResizing = false;
 bool isCTRLdown = false;
 bool criarFigura = false;
 
@@ -73,6 +75,12 @@ void render()
    DrawShapes();
 }
 
+void unselectAllShapes() {
+   for (auto shape : shapesList) {
+      if (!shape->isResizing()) shape->setUnselected();
+   }
+}
+
 void handleDeleteSelectedShapes()
 {
    for (auto it = shapesList.begin(); it != shapesList.end(); ++it) {
@@ -97,7 +105,7 @@ void keyboard(int key)
       case 27:
 	     exit(0);
 	   break;
-      case DELETE:
+      case DEL:
         handleDeleteSelectedShapes();
       break;
       case CTRL:
@@ -162,6 +170,35 @@ void handleDragShape(float x, float y)
    }
 }
 
+void handleStartResizingShape(float x, float y) {
+   bool justStartResizing = false;
+   for (auto shape : shapesList) {
+      if (shape->isSelected() && shape->hasBoundingBtnCollided(x, y)) {
+         shape->setResizing(true);
+         shapeToResize = shape;
+         isResizing = true;
+
+         justStartResizing = true;
+      }
+   }
+   
+   if (justStartResizing) {
+      unselectAllShapes();
+   }
+}
+
+void handleResizeShape(float x, float y) {
+   shapeToResize->resize(x, y);
+}
+
+void handleStopResizingShape() {
+   if (isResizing) {
+      shapeToResize->setResizing(false);
+      shapeToResize = NULL;
+      isResizing = false;
+   }
+}
+
 void handleShapesSelection(float x, float y)
 {
    list<Figura*> auxList = {};
@@ -169,9 +206,7 @@ void handleShapesSelection(float x, float y)
    auto listEnd = shapesList.end();
 
    if(!isCTRLdown) {
-      for (auto shape : shapesList) {
-         shape->setUnselected();
-      }
+      unselectAllShapes();
    }
 
    for (auto shape = prev(listEnd); shape != prev(listBegin); shape--){
@@ -187,26 +222,35 @@ void handleShapesSelection(float x, float y)
       shapesList.push_back(shape);
    }
 }
+
 //funcao para tratamento de mouse: cliques, movimentos e arrastos
 void mouse(int button, int state, int wheel, int direction, int x, int y)
 {
    mouseX = x; //guarda as coordenadas do mouse para exibir dentro da render()
    mouseY = y;
 
-   if(state == 1) isDragging = false;
+   if(state == 1) {
+      isDragging = false;
+      handleStopResizingShape();
+   };
 
-   printf("\nmouse %d %d %d %d %d %d %d", button, state, wheel, direction,  x, y, isDragging);
+   printf("\nmouse %d %d %d %d %d %d %d %d", button, state, wheel, direction,  x, y, isDragging, isResizing);
 
    if( state == 0 ) //clicou
    {
       handleCreateShape(x, y);
+      handleStartResizingShape(x,y);
       handleShapesSelection(x, y);
       handleStartDragShape(x, y);
-      //handleResizeShape(x,y);
       //handleChangeShapeColor(x,y);
    }
 
-   if (isDragging) handleDragShape(x, y);
+   if (isDragging) {
+      handleDragShape(x, y);
+   }
+   if (isResizing) {
+      handleResizeShape(x, y);
+   }
 }
 
 int main(void)

@@ -29,7 +29,7 @@ public:
   {
       float labelX = x + (largura - strlen(label)*CHAR_WIDTH)/2;
       float labelY = y + (altura + CHAR_HEIGHT)/2;
-      CV::color(r,g,b,a);
+      CV::color(r,g,b);
       CV::rectFill(x, y, x + largura, y + altura);
       CV::color(1, 1, 1);
       CV::text(labelX, labelY, label); //escreve o label do botao mais ou menos ao centro.
@@ -55,9 +55,9 @@ public:
     }
 
     void setRGBA(float r, float g, float b, float a) {
-        this->r = r;
-        this->g = g;
-        this->b = b;
+        this->r = r/255;
+        this->g = g/255;
+        this->b = b/255;
         this->a = a;
     }
 };

@@ -8,12 +8,14 @@
 #include <vector>
 #include <cmath>
 
-#define BACKGROUND_COLOR 21, 26, 35, 100
+#define BACKGROUND_COLOR 21, 26, 35
+#define LIMIT_LINE_COLOR 255, 255, 255, 1
 #define MARGIN_LEFT  20
 #define MARGIN_TOP   10
 #define PADDING 5
 
 // Botoes:
+#define BTN_COLOR 111, 125, 155, 1
 #define BTN_WIDTH_MD    110
 #define BTN_HEIGHT_MD   35
 
@@ -24,6 +26,7 @@ using namespace std;
 
 class ToolBar {
     float x, y, width, height;
+    float r, g, b;
     vector<char*> shapeButtonsLabel = {"Linha", "Retangulo", "Circulo", "Poligono"};
     vector<char*> managementButtonsLabel = {"Salvar Arquivo", "Excluir Tudo"};
 
@@ -50,10 +53,17 @@ protected:
             float btnX = translationX + MARGIN_LEFT + deltaX*btn_width + calculateXPadding(i);
             float btnY = MARGIN_TOP + deltaY*btn_height + deltaY*PADDING;
             char* label = labelsList[i];
-            buttonsList.push_back(new Botao(btnX, btnY, btn_width, btn_height, label));
+            Botao* btn = new Botao(btnX, btnY, btn_width, btn_height, label);
+            btn->setRGBA(BTN_COLOR);
+            buttonsList.push_back(btn);
 
             if(i % 2 != 0) deltaX++;
         }
+    }
+
+    void drawLimitLine(float sessionOffset, float r, float g, float b, float a) {
+        CV::color(r/255, g/255, b/255, a);
+        CV::line(sessionOffset + 8, 5, sessionOffset + 8, height -5);
     }
 
 public:
@@ -64,19 +74,19 @@ public:
         this->height = height;
         createButtons(managementButtonsLabel, managementButtonsList, 0, BTN_WIDTH_LG);
         createButtons(shapeButtonsLabel, shapeButtonsList, getMngSessionWidth(), BTN_WIDTH_MD);
+        setRGB(BACKGROUND_COLOR);
     }
 
     void render() {
-        CV::color(0,26,35);
+        CV::color(r,g,b);
         CV::rectFill(Vector2(x,y), Vector2(width, height));
 
         for (auto button : managementButtonsList) {
             button->Render();
         }
 
-        float mngWidth = getMngSessionWidth();
-        CV::color(0,0,0);
-        CV::line(mngWidth + 8, 0, mngWidth + 8, height);
+        const float mngWidth = getMngSessionWidth();
+        drawLimitLine(mngWidth, LIMIT_LINE_COLOR);
 
         for (auto button : shapeButtonsList) {
             button->Render();
@@ -107,7 +117,11 @@ public:
         return shapeButtonsList;
     }
 
-
+    void setRGB(float r, float g, float b) {
+        this->r = r/255;
+        this->g = g/255;
+        this->b = b/255;
+    }
 };
 
 

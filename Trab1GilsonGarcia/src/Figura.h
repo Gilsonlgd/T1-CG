@@ -1,13 +1,19 @@
 #ifndef FIGURA_H_INCLUDED
 #define FIGURA_H_INCLUDED
 
+#include <vector>
+#include "Botao.h"
+
+using namespace std;
 class Figura {
 protected:
-    bool visible, selected;
-    float r, g, b; //cor do retangulo
+    bool visible, selected, resizing;
+    float r, g, b; //cor da figura
     float x, y;
+    float offsetX, offsetY;
 
-
+    vector<Botao*> boundingButtons;
+    int selectedBoundingButton;
 public:
     Figura() {
         r = 1;
@@ -17,7 +23,11 @@ public:
         y = 410;
         visible = false;
         selected = false;
+        resizing = false;
+        selectedBoundingButton = NO_SELECTION;
     }
+
+    virtual ~Figura() {}
 
     virtual void render() {}
 
@@ -88,16 +98,39 @@ public:
     }
     void setUnselected() {
         selected = false;
+        selectedBoundingButton = NO_SELECTION;
+    }
+
+    void setResizing(bool value) {
+        resizing = value;
+    }
+    bool isResizing() {
+        return resizing;
     }
 
     bool isSelected() {
         return selected;
     }
 
+    int hasBoundingBtnCollided(float mx, float my) {
+        for (unsigned int i = 0; i < boundingButtons.size(); i++) {
+            auto btn = boundingButtons[i];
+            if (btn->hasCollided(mx, my)) {
+                selectedBoundingButton = i;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    virtual void resize(float mx, float my) {}
     virtual void setVisible(float x, float y) {}
     virtual void setOffset(float x, float y) {}
     virtual void setMousePosition(float mx, float my) {}
     virtual bool hasCollided(int x, int y) {}
+    virtual float getCenterX() {}
+    virtual float getCenterY() {}
+
 };
 
 #endif // FIGURA_H_INCLUDED
