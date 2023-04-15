@@ -8,6 +8,7 @@
 #define RIGHT_SIDE 1
 #define TOP_SIDE 2
 #define BOTTOM_SIDE 3
+#define MIN_SIZE 5
 
 using namespace std;
 
@@ -109,17 +110,45 @@ public:
     }
 
     void resize(float mx, float my) override {
+        float tempWidth = width;
+        float tempHeight = height;
         if (selectedBoundingButton == RIGHT_SIDE) {
-            width = mx - x;
+            tempWidth = mx - x;
         } else if (selectedBoundingButton == LEFT_SIDE) {
-            width = width + x - mx;
-            x = mx;
+            tempWidth = width + x - mx;
+            if (tempWidth >= MIN_SIZE) x = mx;
         } else if (selectedBoundingButton == BOTTOM_SIDE) {
-            height = my - y;
+            tempHeight = my - y;
         } else if (selectedBoundingButton == TOP_SIDE) {
-            height = height + y - my;
-            y = my;
+            tempHeight = height + y - my;
+            if (tempHeight >= MIN_SIZE) y = my;
         }
+
+        if (tempWidth >= MIN_SIZE) width = tempWidth;
+        if (tempHeight >= MIN_SIZE) height = tempHeight;
+    }
+
+    void resizeProportionally(float mx, float my) override{
+        float tempWidth = width;
+        float tempHeight = height;
+        if (selectedBoundingButton == RIGHT_SIDE) {
+            tempWidth = mx - x;
+            tempHeight += tempWidth - width;
+        } else if (selectedBoundingButton == LEFT_SIDE) {
+            tempWidth = width + x - mx;
+            tempHeight += tempWidth - width;
+            if (tempWidth >= MIN_SIZE) x = mx;
+        } else if (selectedBoundingButton == BOTTOM_SIDE) {
+            tempHeight = my - y;
+            tempWidth += tempHeight - height;
+        } else if (selectedBoundingButton == TOP_SIDE) {
+            tempHeight = height + y - my;
+            tempWidth += tempHeight - height;
+            if (tempHeight >= MIN_SIZE) y = my;
+        }
+
+        if (tempWidth >= MIN_SIZE) width = tempWidth;
+        if (tempHeight >= MIN_SIZE) height = tempHeight;
     }
 };
 

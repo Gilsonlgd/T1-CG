@@ -3,6 +3,7 @@
 
 #include "Figura.h"
 #include "Retangulo.h"
+#include "Circulo.h"
 #include "Botao.h"
 #include <list>
 #include <vector>
@@ -12,15 +13,15 @@
 #define LIMIT_LINE_COLOR 255, 255, 255, 1
 #define MARGIN_LEFT  20
 #define MARGIN_TOP   10
-#define PADDING 5
+#define PADDING       5
 
 // Botoes:
-#define BTN_COLOR 111, 125, 155, 1
+#define BTN_COLOR       111, 125, 155, 1
 #define BTN_WIDTH_MD    110
 #define BTN_HEIGHT_MD   35
 
-#define BTN_WIDTH_LG   200
-#define BTM_HEIGHT_LG   60
+#define BTN_WIDTH_LG    200
+#define BTM_HEIGHT_LG    60
 
 using namespace std;
 
@@ -78,6 +79,7 @@ public:
     }
 
     void render() {
+        CV::translate(0, 0);
         CV::color(r,g,b);
         CV::rectFill(Vector2(x,y), Vector2(width, height));
 
@@ -99,8 +101,8 @@ public:
                 char* label = button->getLabel();
 
                 if (!strcmp(label, "Linha")) return NULL;
-                else if ( !strcmp(label, "Retangulo") ) return new Retangulo;
-                else if ( !strcmp(label, "Circulo")   ) return NULL;
+                else if ( !strcmp(label, "Retangulo") ) return new Retangulo();
+                else if ( !strcmp(label, "Circulo")   ) return new Circulo();
                 else if ( !strcmp(label, "Poligono")  ) return NULL;
                 else return NULL;
             }
@@ -121,6 +123,14 @@ public:
         this->r = r/255;
         this->g = g/255;
         this->b = b/255;
+    }
+
+    float getHeight() {
+        return height;
+    }
+
+    float getWidth() {
+        return width;
     }
 };
 

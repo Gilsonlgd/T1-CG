@@ -7,6 +7,7 @@
 // Teclado
 #define DEL 127
 #define CTRL 214
+#define SHIFT 212
 
 // Strings
 #define CHAR_WIDTH 10       // largura em pixeis de um caracter
@@ -14,7 +15,7 @@
 
 // Geometria
 #define PI 3.14159265359    // a constante
-#define NUM_SEGMENTS 32     // num de segmentos triangulares para criar um semi-circulo
+#define NUM_SEGMENTS 50     // num de segmentos triangulares para criar um circulo
 
 
 // Cores

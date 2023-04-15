@@ -47,6 +47,7 @@ int mouseX, mouseY; //variaveis globais do mouse para poder exibir dentro da ren
 bool isDragging = false;
 bool isResizing = false;
 bool isCTRLdown = false;
+bool isSHIFTdown = false;
 bool criarFigura = false;
 
 
@@ -71,8 +72,8 @@ void DrawShapes()
 //Deve-se manter essa fun��o com poucas linhas de codigo.
 void render()
 {
-   toolBar->render();
    DrawShapes();
+   toolBar->render();
 }
 
 void unselectAllShapes() {
@@ -111,6 +112,9 @@ void keyboard(int key)
       case CTRL:
         isCTRLdown = true;
       break;
+      case SHIFT:
+        isSHIFTdown = true;
+      break;
    }
 }
 
@@ -122,6 +126,9 @@ void keyboardUp(int key)
    {
       case CTRL:
         isCTRLdown = false;
+      break;
+      case SHIFT:
+        isSHIFTdown = false;
       break;
    }
 }
@@ -161,8 +168,19 @@ void handleStartDragShape(float x, float y)
    }
 }
 
+bool isMouseInsideDrawBounds(float x, float y) {
+   if (x > 0 && x < screenWidth) {
+      if (y > toolBar->getHeight() && y < screenHeight) {
+         return true;
+      }
+   };
+   return false;
+}
+
 void handleDragShape(float x, float y)
 {
+   if (!isMouseInsideDrawBounds(x, y)) return;
+
    for (auto shape : shapesList) {
       if(shape->isSelected() && isDragging) {
          shape->setMousePosition(x,y);
@@ -188,7 +206,11 @@ void handleStartResizingShape(float x, float y) {
 }
 
 void handleResizeShape(float x, float y) {
-   shapeToResize->resize(x, y);
+   if (isSHIFTdown) {
+      shapeToResize->resizeProportionally(x, y);
+   } else {
+      shapeToResize->resize(x, y);
+   }
 }
 
 void handleStopResizingShape() {

@@ -102,6 +102,9 @@ public:
     }
 
     void setResizing(bool value) {
+        if (value == false) {
+            selectedBoundingButton = NO_SELECTION;
+        }
         resizing = value;
     }
     bool isResizing() {
@@ -124,6 +127,7 @@ public:
     }
 
     virtual void resize(float mx, float my) {}
+    virtual void resizeProportionally(float mx, float my) {}
     virtual void setVisible(float x, float y) {}
     virtual void setOffset(float x, float y) {}
     virtual void setMousePosition(float mx, float my) {}
