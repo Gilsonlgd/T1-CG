@@ -26,6 +26,7 @@
 #include "Retangulo.h"
 #include "Figura.h"
 #include "Bola.h"
+#include "Linha.h"
 #include "Relogio.h"
 #include "Botao.h"
 #include "ToolBar.h"
@@ -49,6 +50,7 @@ bool isResizing = false;
 bool isCTRLdown = false;
 bool isSHIFTdown = false;
 bool criarFigura = false;
+bool isColoring = false;
 
 
 void DrawMouseScreenCoords()

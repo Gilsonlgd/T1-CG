@@ -4,6 +4,7 @@
 #include "Figura.h"
 #include "Retangulo.h"
 #include "Circulo.h"
+#include "Linha.h"
 #include "Botao.h"
 #include <list>
 #include <vector>
@@ -100,7 +101,7 @@ public:
             if (button->hasCollided(mx, my)) {
                 char* label = button->getLabel();
 
-                if (!strcmp(label, "Linha")) return NULL;
+                if (!strcmp(label, "Linha")) return new Linha();
                 else if ( !strcmp(label, "Retangulo") ) return new Retangulo();
                 else if ( !strcmp(label, "Circulo")   ) return new Circulo();
                 else if ( !strcmp(label, "Poligono")  ) return NULL;

@@ -2,9 +2,11 @@
 #define FIGURA_H_INCLUDED
 
 #include <vector>
+#include <cmath>
 #include "Botao.h"
 
 using namespace std;
+
 class Figura {
 protected:
     bool visible, selected, resizing;
@@ -14,6 +16,11 @@ protected:
 
     vector<Botao*> boundingButtons;
     int selectedBoundingButton;
+
+    float dist(float x1, float y1, float x2, float y2) {
+        return sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));
+    }
+
 public:
     Figura() {
         r = 1;

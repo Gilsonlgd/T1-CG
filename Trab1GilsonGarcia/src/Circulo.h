@@ -73,6 +73,7 @@ public:
         CV::translate(x, y);
         CV::color(r,g,b);
         CV::circleFill(0, 0, radius, NUM_SEGMENTS);
+        CV::translate(0, 0);
         if(selected) drawBoundingBox();
     }
 
