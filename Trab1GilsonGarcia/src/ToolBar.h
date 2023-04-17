@@ -6,6 +6,7 @@
 #include "Circulo.h"
 #include "Linha.h"
 #include "Botao.h"
+#include "ColorPicker.h"
 #include <list>
 #include <vector>
 #include <cmath>
@@ -35,13 +36,12 @@ class ToolBar {
     list<Botao*> shapeButtonsList;
     list<Botao*> managementButtonsList;
 
+    ColorPicker* colorPicker;
 protected:
     int calculateXPadding(int index) {
         if (index < 2) return 0;
-        if (index % 4 == 0) return 2*PADDING;
-        if ((index - 1) % 4 == 0) return 2*PADDING;
-        if (index % 4 != 0) return PADDING;
-        return 0;
+        int coluna = floor(index / 2);
+        return PADDING*coluna;
     }
 
     void createButtons(vector<char*> labelsList, list<Botao*>& buttonsList, float translationX, float _width) {
@@ -55,7 +55,7 @@ protected:
             float btnX = translationX + MARGIN_LEFT + deltaX*btn_width + calculateXPadding(i);
             float btnY = MARGIN_TOP + deltaY*btn_height + deltaY*PADDING;
             char* label = labelsList[i];
-            Botao* btn = new Botao(btnX, btnY, btn_width, btn_height, label);
+            Botao* btn = new Botao(btnX, btnY, btn_width, btn_height, label, RGBA);
             btn->setRGBA(BTN_COLOR);
             buttonsList.push_back(btn);
 
@@ -68,14 +68,29 @@ protected:
         CV::line(sessionOffset + 8, 5, sessionOffset + 8, height -5);
     }
 
+    float getMngSessionWidth() {
+        const int mngColumns = trunc((managementButtonsLabel.size() + 1) / 2);
+        return mngColumns * BTN_WIDTH_LG + mngColumns * PADDING + MARGIN_LEFT;
+    }
+
+    float getShapesSessionWidth() {
+        const int mngColumns = trunc((shapeButtonsList.size() + 1) / 2);
+        return mngColumns * BTN_WIDTH_MD + mngColumns * PADDING + MARGIN_LEFT;
+    }
+
 public:
     ToolBar(float x, float y, float width, float height) {
         this->x = x;
         this->y = y;
         this->width = width;
         this->height = height;
+
         createButtons(managementButtonsLabel, managementButtonsList, 0, BTN_WIDTH_LG);
         createButtons(shapeButtonsLabel, shapeButtonsList, getMngSessionWidth(), BTN_WIDTH_MD);
+
+        float translationX = getMngSessionWidth() + getShapesSessionWidth();
+        colorPicker = new ColorPicker(translationX);
+
         setRGB(BACKGROUND_COLOR);
     }
 
@@ -94,6 +109,11 @@ public:
         for (auto button : shapeButtonsList) {
             button->Render();
         }
+
+        const float sessionsSum = mngWidth + getShapesSessionWidth() ;
+        drawLimitLine(sessionsSum, LIMIT_LINE_COLOR);
+
+        colorPicker->render();
     }
 
     Figura* checkShapeButtonClicked(float mx, float my) {
@@ -111,9 +131,8 @@ public:
         return NULL;
     }
 
-    float getMngSessionWidth() {
-        const int mngColumns = trunc((managementButtonsLabel.size() + 1) / 2);
-        return mngColumns * BTN_WIDTH_LG + mngColumns * PADDING + MARGIN_LEFT;
+    int checkColorButtonClicked(float mx, float my) {
+        return colorPicker->getColorIndex(mx, my);
     }
 
     list<Botao*> getButtonsList() {

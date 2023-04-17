@@ -13,13 +13,14 @@
 using namespace std;
 
 class Retangulo : public Figura {
+    float vx[4], vy[4]; 
     float width;
     float height;
 
 protected:
     void createBoundingButtons() {
         for (int i = 0; i < 4; i++) {
-            Botao* btn = new Botao(0, 0, BOUNDING_BTN_SIZE, BOUNDING_BTN_SIZE, "");
+            Botao* btn = new Botao(0, 0, BOUNDING_BTN_SIZE, BOUNDING_BTN_SIZE, "", RGBA);
             btn->setRGBA(0, 0, 0, 1);
             boundingButtons.push_back(btn);
         }
@@ -27,27 +28,40 @@ protected:
 
     void drawBoundingBox() {
         CV::color(0,0,0);
-        CV::translate(x, y);
-        CV::rect(0, 0, width, height);
         CV::translate(0, 0);
+        CV::polygon(vx, vy, 4);
 
         int offset = BOUNDING_BTN_SIZE / 2;
         //resize buttons
         Botao* botao = boundingButtons[LEFT_SIDE];
-        botao->setCoord(x - offset, y - offset + height / 2);
+        botao->setCoord(vx[0] - offset, vy[0] - offset + height / 2);
         botao->Render();
 
         botao = boundingButtons[RIGHT_SIDE];
-        botao->setCoord(x - offset + width, y - offset + height / 2);
+        botao->setCoord(vx[0] - offset + width, vy[0] - offset + height / 2);
         botao->Render();
 
         botao = boundingButtons[TOP_SIDE];
-        botao->setCoord(x - offset + width / 2, y - offset);
+        botao->setCoord(vx[0] - offset + width / 2, vy[0] - offset);
         botao->Render();
 
         botao = boundingButtons[BOTTOM_SIDE];
-        botao->setCoord(x - offset + width / 2, y - offset + height);
+        botao->setCoord(vx[0] - offset + width / 2, vy[0] - offset + height);
         botao->Render();
+    }
+
+    void attPointsCoord() {
+        float origemX = vx[0];
+        float origemY = vy[0];
+
+        vx[1] = origemX + width;
+        vy[1] = origemY;
+
+        vx[2] = origemX + width;
+        vy[2] = origemY + height;
+
+        vx[3] = origemX;
+        vy[3] = origemY + height;
     }
 
 public:
@@ -59,6 +73,9 @@ public:
         this->height = height;
         offsetX = 0;
         offsetY = 0;
+        vx[0] = 0;
+        vy[0] = 0;
+        attPointsCoord();
         createBoundingButtons();
     }
 
@@ -67,13 +84,17 @@ public:
         height = 40;
         offsetX = 0;
         offsetY = 0;
+        vx[0] = 0;
+        vy[0] = 0;
+        attPointsCoord();
         createBoundingButtons();
     }
 
     void render() override {
-        CV::translate(x, y);
-        CV::color(r,g,b);
-        CV::rectFill(Vector2(0,0), Vector2(width, height));
+        CV::translate(0, 0);
+        if (colorScale == RGBA) CV::color(r,g,b); 
+        else if (colorScale == INDEX14)  CV::color(indexColor);
+        CV::polygonFill(vx, vy, 4);
         if(selected) drawBoundingBox();
     }
 
@@ -85,70 +106,88 @@ public:
     }
 
     void setOffset(float x, float y) override {
-        offsetX = x - this->x;
-        offsetY = y - this->y;
+        float origemX = vx[0];
+        float origemY = vy[0];
+
+        offsetX = x - origemX;
+        offsetY = y - origemY;
     }
 
     void setVisible(float x, float y) override {
-        setPosition(x - getCenterX(), y - getCenterY());
+        vx[0] = x - getCenterX();
+        vy[0] = y - getCenterY();
+        attPointsCoord();
         visible = true;
     }
 
     bool hasCollided(int x, int y) override {
         if (selectedBoundingButton >= 0 && selected) return false;
 
-        if( x >= this->x && x <= (this->x + width) && y >= this->y && y <= (this->y + height) )
-        {
+        float origemX = x - vx[0];
+        float origemY = y - vy[0];
+
+        if (origemX >= 0 && origemX <= width && origemY >= 0 && origemY <= height) {
             return true;
         }
         return false;
     }
 
     void setMousePosition(float mx, float my) override {
-        x = mx - offsetX;
-        y = my - offsetY;
+        vx[0] = mx - offsetX;
+        vy[0] = my - offsetY;
+
+        vx[1] = mx - offsetX + width;
+        vy[1] = my - offsetY;
+
+        vx[2] = mx - offsetX + width;
+        vy[2] = my - offsetY + height;
+
+        vx[3] = mx - offsetX;
+        vy[3] = my - offsetY + height;
     }
 
     void resize(float mx, float my) override {
         float tempWidth = width;
         float tempHeight = height;
         if (selectedBoundingButton == RIGHT_SIDE) {
-            tempWidth = mx - x;
+            tempWidth = mx - vx[0];
         } else if (selectedBoundingButton == LEFT_SIDE) {
-            tempWidth = width + x - mx;
-            if (tempWidth >= MIN_SIZE) x = mx;
+            tempWidth = width + vx[0] - mx;
+            if (tempWidth >= MIN_SIZE) vx[0] = mx;
         } else if (selectedBoundingButton == BOTTOM_SIDE) {
-            tempHeight = my - y;
+            tempHeight = my - vy[0];
         } else if (selectedBoundingButton == TOP_SIDE) {
-            tempHeight = height + y - my;
-            if (tempHeight >= MIN_SIZE) y = my;
+            tempHeight = height + vy[0] - my;
+            if (tempHeight >= MIN_SIZE) vy[0] = my;
         }
 
         if (tempWidth >= MIN_SIZE) width = tempWidth;
         if (tempHeight >= MIN_SIZE) height = tempHeight;
+        attPointsCoord();
     }
 
     void resizeProportionally(float mx, float my) override{
         float tempWidth = width;
         float tempHeight = height;
         if (selectedBoundingButton == RIGHT_SIDE) {
-            tempWidth = mx - x;
+            tempWidth = mx - vx[0];
             tempHeight += tempWidth - width;
         } else if (selectedBoundingButton == LEFT_SIDE) {
-            tempWidth = width + x - mx;
+            tempWidth = width + vx[0] - mx;
             tempHeight += tempWidth - width;
-            if (tempWidth >= MIN_SIZE) x = mx;
+            if (tempWidth >= MIN_SIZE) vx[0] = mx;
         } else if (selectedBoundingButton == BOTTOM_SIDE) {
-            tempHeight = my - y;
+            tempHeight = my - vy[0];
             tempWidth += tempHeight - height;
         } else if (selectedBoundingButton == TOP_SIDE) {
-            tempHeight = height + y - my;
+            tempHeight = height + vy[0] - my;
             tempWidth += tempHeight - height;
-            if (tempHeight >= MIN_SIZE) y = my;
+            if (tempHeight >= MIN_SIZE) vy[0] = my;
         }
 
         if (tempWidth >= MIN_SIZE) width = tempWidth;
         if (tempHeight >= MIN_SIZE) height = tempHeight;
+        attPointsCoord();
     }
 };
 

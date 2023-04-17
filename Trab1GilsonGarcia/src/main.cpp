@@ -51,6 +51,7 @@ bool isCTRLdown = false;
 bool isSHIFTdown = false;
 bool criarFigura = false;
 bool isColoring = false;
+int selectedColor = 0;
 
 
 void DrawMouseScreenCoords()
@@ -105,8 +106,9 @@ void keyboard(int key)
 
    switch(key)
    {
-      case 27:
-	     exit(0);
+      case ESC:
+	     unselectAllShapes();
+        isColoring = false;
 	   break;
       case DEL:
         handleDeleteSelectedShapes();
@@ -147,46 +149,6 @@ void handleCreateShape(float x, float y)
    if (fig != NULL) {
       newFigura = fig;
       criarFigura = true;
-   }
-}
-
-void handleStartDragShape(float x, float y)
-{  
-   bool hasSomeCollision = false;
-   for (auto shape : shapesList) {
-      if (shape->hasCollided(x, y)) {
-         hasSomeCollision = true;
-         break;
-      }  
-   }
-
-   if (hasSomeCollision) {
-      for (auto shape : shapesList) {
-         if (shape->isSelected()) {
-            shape->setOffset(x, y);
-         }
-      }
-      isDragging = true;
-   }
-}
-
-bool isMouseInsideDrawBounds(float x, float y) {
-   if (x > 0 && x < screenWidth) {
-      if (y > toolBar->getHeight() && y < screenHeight) {
-         return true;
-      }
-   };
-   return false;
-}
-
-void handleDragShape(float x, float y)
-{
-   if (!isMouseInsideDrawBounds(x, y)) return;
-
-   for (auto shape : shapesList) {
-      if(shape->isSelected() && isDragging) {
-         shape->setMousePosition(x,y);
-      }
    }
 }
 
@@ -247,6 +209,64 @@ void handleShapesSelection(float x, float y)
    }
 }
 
+void handleStartDragShape(float x, float y)
+{  
+   bool hasSomeCollision = false;
+   for (auto shape : shapesList) {
+      if (shape->hasCollided(x, y)) {
+         hasSomeCollision = true;
+         break;
+      }  
+   }
+
+   if (hasSomeCollision) {
+      for (auto shape : shapesList) {
+         if (shape->isSelected()) {
+            shape->setOffset(x, y);
+         }
+      }
+      isDragging = true;
+   }
+}
+
+bool isMouseInsideDrawBounds(float x, float y) {
+   if (x > 0 && x < screenWidth) {
+      if (y > toolBar->getHeight() && y < screenHeight) {
+         return true;
+      }
+   };
+   return false;
+}
+
+void handleDragShape(float x, float y)
+{
+   if (!isMouseInsideDrawBounds(x, y)) return;
+
+   for (auto shape : shapesList) {
+      if(shape->isSelected() && isDragging) {
+         shape->setMousePosition(x,y);
+      }
+   }
+}
+
+void handleStartChangeShapeColor(float x, float y) {
+   int tempColor = toolBar->checkColorButtonClicked(x, y);
+   if (tempColor != NO_SELECTION && tempColor != selectedColor) {
+      selectedColor = tempColor;
+      isColoring = true;
+   }
+}
+
+void handleChangeShapeColor(float x, float y) {
+   if (!isColoring) return;
+
+   for (auto shape : shapesList) {
+      if (shape->hasCollided(x, y)) {
+         shape->setINDEX14(selectedColor);
+      } 
+   }
+}
+
 //funcao para tratamento de mouse: cliques, movimentos e arrastos
 void mouse(int button, int state, int wheel, int direction, int x, int y)
 {
@@ -257,8 +277,7 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
       isDragging = false;
       handleStopResizingShape();
    };
-
-   printf("\nmouse %d %d %d %d %d %d %d %d", button, state, wheel, direction,  x, y, isDragging, isResizing);
+   printf("\nmouse %d %d %d %d %d %d %d %d %d", button, state, wheel, direction,  x, y, isDragging, isResizing, isColoring);
 
    if( state == 0 ) //clicou
    {
@@ -266,15 +285,12 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
       handleStartResizingShape(x,y);
       handleShapesSelection(x, y);
       handleStartDragShape(x, y);
-      //handleChangeShapeColor(x,y);
+      handleStartChangeShapeColor(x,y);
+      handleChangeShapeColor(x, y);
    }
 
-   if (isDragging) {
-      handleDragShape(x, y);
-   }
-   if (isResizing) {
-      handleResizeShape(x, y);
-   }
+   if (isDragging) handleDragShape(x, y);
+   if (isResizing) handleResizeShape(x, y);
 }
 
 int main(void)

@@ -14,6 +14,8 @@ protected:
     float x, y;
     float offsetX, offsetY;
 
+    int indexColor;
+    int colorScale;
     vector<Botao*> boundingButtons;
     int selectedBoundingButton;
 
@@ -32,6 +34,8 @@ public:
         selected = false;
         resizing = false;
         selectedBoundingButton = NO_SELECTION;
+        indexColor = 0;
+        colorScale = INDEX14;
     }
 
     virtual ~Figura() {}
@@ -87,6 +91,10 @@ public:
     }
     float getColorB() {
         return b;
+    }
+
+    void setINDEX14(int index) {
+        indexColor = index;
     }
 
     void setVisible() {

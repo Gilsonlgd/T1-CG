@@ -9,9 +9,11 @@ class Botao{
   bool isVisible;
   char label[100];
   float r, g, b, a;
+  int colorScale;
+  int indexColor;
 
 public:
-  Botao(float x, float y, float largura, float altura, char *label)
+  Botao(float x, float y, float largura, float altura, char *label, int colorScale)
   {
      this->isVisible = false;
      this->altura  = altura;
@@ -22,6 +24,8 @@ public:
      this->g = 1;
      this->b = 0;
      this->a = 1;
+     this->indexColor = 0;
+     this->colorScale = colorScale;
      strcpy(this->label, label);
   }
 
@@ -29,7 +33,9 @@ public:
   {
       float labelX = x + (largura - strlen(label)*CHAR_WIDTH)/2;
       float labelY = y + (altura + CHAR_HEIGHT)/2;
-      CV::color(r,g,b);
+      
+      if (colorScale == RGBA) CV::color(r,g,b); 
+      else if (colorScale == INDEX14)  CV::color(indexColor);
       CV::rectFill(x, y, x + largura, y + altura);
       CV::color(1, 1, 1);
       CV::text(labelX, labelY, label); //escreve o label do botao mais ou menos ao centro.
@@ -59,6 +65,14 @@ public:
         this->g = g/255;
         this->b = b/255;
         this->a = a;
+    }
+
+    void setINDEX14(int index) {
+        indexColor = index;
+    }
+
+    int getColorIndex() {
+        return indexColor;
     }
 };
 

@@ -19,7 +19,7 @@ class Circulo : public Figura {
 protected:
     void createBoundingButtons() {
         for (int i = 0; i < 4; i++) {
-            Botao* btn = new Botao(0, 0, BOUNDING_BTN_SIZE, BOUNDING_BTN_SIZE, "");
+            Botao* btn = new Botao(0, 0, BOUNDING_BTN_SIZE, BOUNDING_BTN_SIZE, "", RGBA);
             btn->setRGBA(0, 0, 0, 1);
             boundingButtons.push_back(btn);
         }
@@ -71,7 +71,8 @@ public:
 
     void render() override {
         CV::translate(x, y);
-        CV::color(r,g,b);
+        if (colorScale == RGBA) CV::color(r,g,b); 
+        else if (colorScale == INDEX14)  CV::color(indexColor);
         CV::circleFill(0, 0, radius, NUM_SEGMENTS);
         CV::translate(0, 0);
         if(selected) drawBoundingBox();

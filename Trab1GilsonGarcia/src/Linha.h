@@ -20,7 +20,7 @@ class Linha : public Figura {
 protected:
     void createBoundingButtons() {
         for (int i = 0; i < 2; i++) {
-            Botao* btn = new Botao(0, 0, BOUNDING_BTN_SIZE, BOUNDING_BTN_SIZE, "");
+            Botao* btn = new Botao(0, 0, BOUNDING_BTN_SIZE, BOUNDING_BTN_SIZE, "", RGBA);
             btn->setRGBA(0, 0, 0, 1);
             boundingButtons.push_back(btn);
         }
@@ -53,7 +53,8 @@ public:
     }
 
     void render() override {
-        CV::color(r,g,b);
+        if (colorScale == RGBA) CV::color(r,g,b); 
+        else if (colorScale == INDEX14)  CV::color(indexColor);
         CV::translate(0,0);
         CV::line(x1, y1, x2, y2);
         if(selected) drawBoundingBox();

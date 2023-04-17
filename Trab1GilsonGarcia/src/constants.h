@@ -4,10 +4,12 @@
 //Botões
 #define BOUNDING_BTN_SIZE 8
 #define NO_SELECTION -1
+
 // Teclado
 #define DEL 127
 #define CTRL 214
 #define SHIFT 212
+#define ESC 27
 
 // Strings
 #define CHAR_WIDTH 10       // largura em pixeis de um caracter
@@ -19,6 +21,7 @@
 
 
 // Cores
-
+#define RGBA 0
+#define INDEX14 1
 
 #endif // CONSTANTS_H_INCLUDED
