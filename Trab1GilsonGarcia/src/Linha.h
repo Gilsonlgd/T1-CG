@@ -80,7 +80,6 @@ public:
     }
 
     void setMousePosition(float mx, float my) override {
-        float lineLen = dist(vx[0], vy[0], vx[1], vy[1]);
         float xDif = vx[1] - vx[0];
         float yDif = vy[1] - vy[0];
         vx[0] = mx - offsetX;

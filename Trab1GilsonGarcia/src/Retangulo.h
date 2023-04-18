@@ -98,17 +98,19 @@ public:
     }
 
     void setMousePosition(float mx, float my) override {
+        float xDif = vx[1] - vx[0];
+        float yDif = vy[1] - vy[0];
         vx[0] = mx - offsetX;
         vy[0] = my - offsetY;
+        vx[1] = mx + xDif - offsetX;
+        vy[1] = my + yDif - offsetY;
 
-        vx[1] = mx - offsetX + width;
-        vy[1] = my - offsetY;
-
-        vx[2] = mx - offsetX + width;
-        vy[2] = my - offsetY + height;
-
+        xDif = vx[2] - vx[3];
+        yDif = vy[2] - vy[3];
         vx[3] = mx - offsetX;
         vy[3] = my - offsetY + height;
+        vx[2] = mx + xDif - offsetX;
+        vy[2] = my + yDif - offsetY + height;
     }
 
     void rotate(float mx, float my) override {
