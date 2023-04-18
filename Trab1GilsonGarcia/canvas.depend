@@ -72,7 +72,7 @@
 
 1589217858 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\vector2.h
 
-1681693206 source:e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
+1681777327 source:e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -89,11 +89,11 @@
 	"ToolBar.h"
 	"constants.h"
 
-1681696136 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
+1681702314 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
 	"Figura.h"
 	"constants.h"
 
-1681685884 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
+1681776744 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
 	<vector>
 	<cmath>
 	"Botao.h"
@@ -108,7 +108,7 @@
 	"gl_canvas2d.h"
 	"constants.h"
 
-1681696788 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
+1681777160 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
 
 1589218349 source:e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\relogio.cpp
 	"Relogio.h"
@@ -116,7 +116,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1681697707 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
+1681701796 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
 	"Figura.h"
 	"Retangulo.h"
 	"Circulo.h"
@@ -209,16 +209,16 @@
 	<stdio.h>
 	<stdlib.h>
 
-1681696120 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\circulo.h
+1681702286 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\circulo.h
 	<cmath>
 	"Figura.h"
 	"constants.h"
 
-1681696129 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\linha.h
+1681702332 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\linha.h
 	"Figura.h"
 	"constants.h"
 
-1681701776 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\colorpicker.h
+1681702868 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\colorpicker.h
 	<iostream>
 	<vector>
 	"Botao.h"

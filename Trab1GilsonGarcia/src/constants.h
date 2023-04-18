@@ -5,6 +5,9 @@
 #define BOUNDING_BTN_SIZE 8
 #define NO_SELECTION -1
 
+// Mouse
+#define COLOR_POINTER_SIZE 10.0
+
 // Teclado
 #define DEL 127
 #define CTRL 214

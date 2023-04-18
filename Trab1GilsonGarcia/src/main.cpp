@@ -54,6 +54,15 @@ bool isColoring = false;
 int selectedColor = 0;
 
 
+bool isMouseInsideDrawBounds(float x, float y) {
+   if (x > 0 && x < screenWidth) {
+      if (y > toolBar->getHeight() && y < screenHeight) {
+         return true;
+      }
+   };
+   return false;
+}
+
 void DrawMouseScreenCoords()
 {
    char str[100];
@@ -70,6 +79,14 @@ void DrawShapes()
    }
 }
 
+void DrawColoringPointer() {
+   if (!isMouseInsideDrawBounds(mouseX, mouseY)) return;
+   
+   CV::color(selectedColor);
+   float pointerCenter = COLOR_POINTER_SIZE / 2;
+   CV::rectFill(mouseX - pointerCenter, mouseY - pointerCenter, mouseX + pointerCenter, mouseY + pointerCenter);
+}
+
 //funcao chamada continuamente. Deve-se controlar o que desenhar por meio de variaveis globais
 //Todos os comandos para desenho na canvas devem ser chamados dentro da render().
 //Deve-se manter essa fun��o com poucas linhas de codigo.
@@ -77,6 +94,7 @@ void render()
 {
    DrawShapes();
    toolBar->render();
+   if (isColoring) DrawColoringPointer();
 }
 
 void unselectAllShapes() {
@@ -149,10 +167,13 @@ void handleCreateShape(float x, float y)
    if (fig != NULL) {
       newFigura = fig;
       criarFigura = true;
+      isColoring = false;
    }
 }
 
 void handleStartResizingShape(float x, float y) {
+   if(isColoring) return;
+
    bool justStartResizing = false;
    for (auto shape : shapesList) {
       if (shape->isSelected() && shape->hasBoundingBtnCollided(x, y)) {
@@ -211,6 +232,8 @@ void handleShapesSelection(float x, float y)
 
 void handleStartDragShape(float x, float y)
 {  
+   if(isColoring) return;
+
    bool hasSomeCollision = false;
    for (auto shape : shapesList) {
       if (shape->hasCollided(x, y)) {
@@ -227,15 +250,6 @@ void handleStartDragShape(float x, float y)
       }
       isDragging = true;
    }
-}
-
-bool isMouseInsideDrawBounds(float x, float y) {
-   if (x > 0 && x < screenWidth) {
-      if (y > toolBar->getHeight() && y < screenHeight) {
-         return true;
-      }
-   };
-   return false;
 }
 
 void handleDragShape(float x, float y)
