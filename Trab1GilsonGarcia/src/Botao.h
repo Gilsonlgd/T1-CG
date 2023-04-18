@@ -8,8 +8,8 @@ class Botao{
   float altura, largura, x, y;
   bool isVisible;
   char label[100];
-  float r, g, b, a;
   int colorScale;
+  float r, g, b, a;
   int indexColor;
 
 public:
@@ -60,14 +60,14 @@ public:
         this->y = y;
     }
 
-    void setRGBA(float r, float g, float b, float a) {
+    void setColor(float r, float g, float b, float a) {
         this->r = r/255;
         this->g = g/255;
         this->b = b/255;
         this->a = a;
     }
 
-    void setINDEX14(int index) {
+    void setColor(int index) {
         indexColor = index;
     }
 

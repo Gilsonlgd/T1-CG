@@ -43,7 +43,7 @@ public:
             float btnX = translationX + MARGIN_LEFT + deltaX*btn_width + calculateXPadding(i);
             float btnY = MARGIN_TOP + deltaY*btn_height + deltaY*PADDING;
             Botao* btn = new Botao(btnX, btnY, btn_width, btn_height, "", INDEX14);
-            btn->setINDEX14(i);
+            btn->setColor(i);
             colors.push_back(btn);
 
             if(i % 2 != 0) deltaX++;

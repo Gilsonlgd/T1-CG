@@ -127,6 +127,7 @@ void keyboard(int key)
       case ESC:
 	     unselectAllShapes();
         isColoring = false;
+        selectedColor = NO_SELECTION;
 	   break;
       case DEL:
         handleDeleteSelectedShapes();
@@ -168,6 +169,7 @@ void handleCreateShape(float x, float y)
       newFigura = fig;
       criarFigura = true;
       isColoring = false;
+      selectedColor = NO_SELECTION;
    }
 }
 
@@ -230,8 +232,7 @@ void handleShapesSelection(float x, float y)
    }
 }
 
-void handleStartDragShape(float x, float y)
-{  
+void handleStartDragShape(float x, float y) {  
    if(isColoring) return;
 
    bool hasSomeCollision = false;
@@ -252,8 +253,7 @@ void handleStartDragShape(float x, float y)
    }
 }
 
-void handleDragShape(float x, float y)
-{
+void handleDragShape(float x, float y) {
    if (!isMouseInsideDrawBounds(x, y)) return;
 
    for (auto shape : shapesList) {
@@ -276,7 +276,7 @@ void handleChangeShapeColor(float x, float y) {
 
    for (auto shape : shapesList) {
       if (shape->hasCollided(x, y)) {
-         shape->setINDEX14(selectedColor);
+         shape->setColor(selectedColor);
       } 
    }
 }
@@ -310,7 +310,7 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
 int main(void)
 {
    toolBar = new ToolBar(0, 0, screenWidth, 100);
-   newFigura = new Figura();
+   newFigura = new Figura(0);
 
    CV::init(&screenWidth, &screenHeight, "");
    CV::run();

@@ -14,27 +14,16 @@
 using namespace std;
 
 class Linha : public Figura {
-    float x1, x2;
-    float y1, y2;
-
 protected:
-    void createBoundingButtons() {
-        for (int i = 0; i < 2; i++) {
-            Botao* btn = new Botao(0, 0, BOUNDING_BTN_SIZE, BOUNDING_BTN_SIZE, "", RGBA);
-            btn->setRGBA(0, 0, 0, 1);
-            boundingButtons.push_back(btn);
-        }
-    }
-
     void drawBoundingBox() {
         int offset = BOUNDING_BTN_SIZE / 2;
         //resize buttons
         Botao* botao = boundingButtons[TOP_SIDE];
-        botao->setCoord(x1 - offset, y1 - offset);
+        botao->setCoord(vx[0] - offset, vy[0] - offset);
         botao->Render();
 
         botao = boundingButtons[BOTTOM_SIDE];
-        botao->setCoord(x2 - offset, y2 - offset);
+        botao->setCoord(vx[1] - offset, vy[1] - offset);
         botao->Render();
     }
 
@@ -42,52 +31,47 @@ protected:
 public:
     using Figura::setVisible;
 
-    Linha() {
-        x1 = 0;
-        x2 = 0;
-        y1 = 0;
-        y2 = 0;
+    Linha() : Figura(2) {
         offsetX = 0;
         offsetY = 0;
-        createBoundingButtons();
     }
 
     void render() override {
         if (colorScale == RGBA) CV::color(r,g,b); 
         else if (colorScale == INDEX14)  CV::color(indexColor);
         CV::translate(0,0);
-        CV::line(x1, y1, x2, y2);
+        CV::line(vx[0], vy[0], vx[1], vy[1]);
         if(selected) drawBoundingBox();
     }
 
     float getCenterX() override{
-        return x1;
+        return (vx[1]-vx[0])/2;
     }
 
     float getCenterY() override{
-        return (y2-y1)/2;
+        return (vy[1]-vy[0])/2;
     }
 
     void setOffset(float x, float y) override {
-        offsetX = x - this->x1;
-        offsetY = y - this->y1;
+        offsetX = x - this->vx[0];
+        offsetY = y - this->vy[0];
     }
 
     void setVisible(float x, float y) override {
         float start_len = START_LEN;
-        x1 = x;
-        y1 = y - start_len/2;
-        x2 = x;
-        y2 = y + start_len/2;
+        vx[0] = x;
+        vy[0] = y - start_len/2;
+        vx[1] = x;
+        vy[1] = y + start_len/2;
         visible = true;
     }
 
     bool hasCollided(int mx, int my) override {
         if (selectedBoundingButton >= 0 && selected) return false;
-        float d1 = dist(mx,my, x1,y1);
-        float d2 = dist(mx,my, x2,y2);
 
-        float lineLen = dist(x1,y1, x2,y2);   
+        float d1 = dist(mx,my, vx[0],vy[0]);
+        float d2 = dist(mx,my, vx[1],vy[1]);
+        float lineLen = dist(vx[0],vy[0], vx[1],vy[1]);   
         
         if (d1 + d2 >= lineLen - TOL && d1 + d2 <= lineLen + TOL) {
             return true;
@@ -96,31 +80,45 @@ public:
     }
 
     void setMousePosition(float mx, float my) override {
-        float lineLen = dist(x1, y1, x2, y2);
-        float xDif = x2 - x1;
-        float yDif = y2 - y1;
-        x1 = mx - offsetX;
-        y1 = my - offsetY;
-        x2 = mx + xDif - offsetX;
-        y2 = my + yDif - offsetY;
+        float lineLen = dist(vx[0], vy[0], vx[1], vy[1]);
+        float xDif = vx[1] - vx[0];
+        float yDif = vy[1] - vy[0];
+        vx[0] = mx - offsetX;
+        vy[0] = my - offsetY;
+        vx[1] = mx + xDif - offsetX;
+        vy[1] = my + yDif - offsetY;
     }
 
     void resize(float mx, float my) override {
         if (selectedBoundingButton == BOTTOM_SIDE) {
-            if(dist(mx, my, x1, y1) > MIN_LEN) {
-                x2 = mx;
-                y2 = my;
+            if(dist(mx, my, vx[0], vy[0]) > MIN_LEN) {
+                vx[1] = mx;
+                vy[1] = my;
             }
         } else if (selectedBoundingButton == TOP_SIDE) {
-            if(dist(mx, my, x2, y2) > MIN_LEN) {
-                x1 = mx;
-                y1 = my;
+            if(dist(mx, my, vx[1], vy[1]) > MIN_LEN) {
+                vx[0] = mx;
+                vy[0] = my;
             }
         }
     }
 
     void resizeProportionally(float mx, float my) override{
-        resize(mx,my);
+        if (selectedBoundingButton == BOTTOM_SIDE) {
+            if(dist(mx, my, vx[0], vy[0]) > MIN_LEN) {
+                vx[0] += -(mx - vx[1]);
+                vy[0] += -(my - vy[1]);
+                vx[1] = mx;
+                vy[1] = my;
+            }
+        } else if (selectedBoundingButton == TOP_SIDE) {
+            if(dist(mx, my, vx[1], vy[1]) > MIN_LEN) {
+                vx[1] += -(mx - vx[0]);
+                vy[1] += -(my - vy[0]);
+                vx[0] = mx;
+                vy[0] = my;
+            }
+        }
     }
 };
 

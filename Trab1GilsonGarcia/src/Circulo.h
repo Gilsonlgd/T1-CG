@@ -14,13 +14,14 @@
 using namespace std;
 
 class Circulo : public Figura {
+    float x, y;
     float radius;
 
 protected:
     void createBoundingButtons() {
         for (int i = 0; i < 4; i++) {
             Botao* btn = new Botao(0, 0, BOUNDING_BTN_SIZE, BOUNDING_BTN_SIZE, "", RGBA);
-            btn->setRGBA(0, 0, 0, 1);
+            btn->setColor(0, 0, 0, 1);
             boundingButtons.push_back(btn);
         }
     }
@@ -54,15 +55,7 @@ protected:
     }
 
 public:
-    Circulo(float radius)
-    {
-        this->radius = radius;
-        offsetX = 0;
-        offsetY = 0;
-        createBoundingButtons();
-    }
-
-    Circulo() {
+    Circulo() : Figura(1) {
         radius = 20;
         offsetX = 0;
         offsetY = 0;
@@ -91,7 +84,8 @@ public:
     }
 
     void setVisible(float x, float y) override {
-        setPosition(x, y);
+        this->x = x;
+        this->y = y;
         visible = true;
     }
 

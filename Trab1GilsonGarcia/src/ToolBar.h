@@ -56,7 +56,7 @@ protected:
             float btnY = MARGIN_TOP + deltaY*btn_height + deltaY*PADDING;
             char* label = labelsList[i];
             Botao* btn = new Botao(btnX, btnY, btn_width, btn_height, label, RGBA);
-            btn->setRGBA(BTN_COLOR);
+            btn->setColor(BTN_COLOR);
             buttonsList.push_back(btn);
 
             if(i % 2 != 0) deltaX++;
