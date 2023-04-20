@@ -89,13 +89,13 @@
 	"ToolBar.h"
 	"constants.h"
 
-1681982657 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
+1681985952 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
 	"Figura.h"
 	"constants.h"
 	"Circulo.h"
 	<stdio.h>
 
-1681982723 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
+1681984399 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
 	<vector>
 	<cmath>
 	"BoundingBtn.h"
@@ -161,7 +161,7 @@
 
 1589217858 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\vector2.h
 
-1681848607 source:g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
+1681991077 source:g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -178,15 +178,16 @@
 	"ToolBar.h"
 	"constants.h"
 
-1681849101 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
+1682012129 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
 	"Figura.h"
 	"constants.h"
 	"Circulo.h"
+	<stdio.h>
 
-1681849418 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
+1682009502 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
 	<vector>
 	<cmath>
-	"Botao.h"
+	"BoundingBtn.h"
 
 1680625998 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\bola.h
 	"gl_canvas2d.h"
@@ -198,7 +199,7 @@
 	"gl_canvas2d.h"
 	"constants.h"
 
-1681821922 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
+1681966084 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
 
 1681822653 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
 	"Figura.h"
@@ -234,12 +235,12 @@
 	"constants.h"
 	<cmath>
 
-1681835822 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\circulo.h
+1681964778 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\circulo.h
 	<cmath>
 	"Figura.h"
 	"constants.h"
 
-1681849205 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\linha.h
+1681967536 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\linha.h
 	"Figura.h"
 	"constants.h"
 	"Circulo.h"
@@ -252,6 +253,11 @@
 	<cmath>
 
 1681966280 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\boundingbtn.h
+	"gl_canvas2d.h"
+	"constants.h"
+	<cmath>
+
+1682009650 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\boundingbtn.h
 	"gl_canvas2d.h"
 	"constants.h"
 	<cmath>

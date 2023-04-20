@@ -22,29 +22,30 @@ class Retangulo : public Figura {
     BoundingBtn* rotateBtn;
 
 protected:
+
+    void attBoundingButtonsPosition() {
+        BoundingBtn* botao = boundingButtons[LEFT_SIDE];
+        botao->setCoord(segmentCenter(vx[0], vx[3]) , segmentCenter(vy[0], vy[3]));
+
+        botao = boundingButtons[RIGHT_SIDE];
+        botao->setCoord(segmentCenter(vx[1], vx[2]) , segmentCenter(vy[1], vy[2]));
+
+        botao = boundingButtons[TOP_SIDE];
+        botao->setCoord(segmentCenter(vx[0], vx[1]) , segmentCenter(vy[0], vy[1]));
+
+        botao = boundingButtons[BOTTOM_SIDE];
+        botao->setCoord(segmentCenter(vx[3], vx[2]) , segmentCenter(vy[3], vy[2]));
+    }
+
     void drawBoundingBox() {
         CV::color(0,0,0);
         CV::translate(0, 0);
         CV::polygon(vx.data(), vy.data(), 4);
+        attBoundingButtonsPosition();
+        for (auto btn : boundingButtons) {
+            btn->Render();
+        }
 
-        //resize buttons
-        BoundingBtn* botao = boundingButtons[LEFT_SIDE];
-        botao->setCoord(segmentCenter(vx[0], vx[3]) , segmentCenter(vy[0], vy[3]));
-        botao->Render();
-
-        botao = boundingButtons[RIGHT_SIDE];
-        botao->setCoord(segmentCenter(vx[1], vx[2]) , segmentCenter(vy[1], vy[2]));
-        botao->Render();
-
-        botao = boundingButtons[TOP_SIDE];
-        botao->setCoord(segmentCenter(vx[0], vx[1]) , segmentCenter(vy[0], vy[1]));
-        botao->Render();
-
-        botao = boundingButtons[BOTTOM_SIDE];
-        botao->setCoord(segmentCenter(vx[3], vx[2]) , segmentCenter(vy[3], vy[2]));
-        botao->Render();
-
-        attRotateBtnCoordinate();
         rotateBtn->Render();
     }
 
@@ -91,6 +92,7 @@ public:
         CV::translate(0, 0);
         if (colorScale == RGBA) CV::color(r,g,b);
         else if (colorScale == INDEX14)  CV::color(indexColor);
+
         CV::polygonFill(vx.data(), vy.data(), 4);
         if(selected) drawBoundingBox();
     }
@@ -108,6 +110,7 @@ public:
     void setVisible(float x, float y) override {
         vx[0] = x - getCenterX();
         vy[0] = y - getCenterY();
+
         attPointsCoord();
         visible = true;
         rotateBtn->setCoord(vx[2] + 20, vy[2]);
@@ -130,7 +133,8 @@ public:
         vx[2] = mx + xDif - offsetX;
         vy[2] = my + yDif - offsetY + height;     
 
-        rotatePoints(getCenterX(), getCenterY(), angle);   
+        rotatePoints(getCenterX(), getCenterY(), angle);  
+        attRotateBtnCoordinate(); 
     }
 
     void rotate(float mx, float my) override {
@@ -148,74 +152,90 @@ public:
         if (abs(newAngle) > 180.0) {
             newAngle = newAngle > 0 ? newAngle - 360.0 : newAngle + 360.0;
         }
+        
         angle += newAngle;
+        if(angle <= -360 || angle >= 360) angle = 0;
+
+        rotateBtn->rotate(pivotX, pivotY, newAngle);
         rotatePoints(pivotX, pivotY, newAngle);
     }
 
     void resize(float mx, float my) override {
-        float tempWidth = width;
-        float tempHeight = height;
+        float pivotX = getCenterX();
+        float pivotY = getCenterY();
+
+        float mxC = mx;
+        float myC = my;
+
+        rotatePoint(mxC, myC, pivotX, pivotY, -angle);
+        rotatePoints(pivotX, pivotY, -angle);
+        attBoundingButtonsPosition();
 
         if (selectedBoundingButton == RIGHT_SIDE) {
-            float vetLen = dist(vx[0], vy[0], vx[1], vy[1]);
-            float vetUnitarioX = (vx[1] - vx[0]) / vetLen;
-            float vetUnitarioY = (vy[1] - vy[0]) / vetLen;
-
-            float deltax = 1;
-            float deltay= 1;
-            if (mx - boundingButtons[RIGHT_SIDE]->getCenterX() < 0) deltax = -1;
-            if (my - boundingButtons[RIGHT_SIDE]->getCenterY() < 0) deltay = -1; 
-
-            float dist = distance(mx, my, boundingButtons[RIGHT_SIDE]->getCenterX(), boundingButtons[RIGHT_SIDE]->getCenterY(), vetUnitarioX, vetUnitarioY); 
-            float newLenX = dist + vetLen;
-            float newLenY = dist + vetLen;
-
-            vx[1] = vx[0] + vetUnitarioX * newLenX;
-            vy[1] = vy[0] + vetUnitarioY * newLenY;
-
-            vx[2] = vx[3] + vetUnitarioX * newLenX;
-            vy[2] = vy[3] + vetUnitarioY * newLenY;
+            vx[1] = mxC;
+            vx[2] = mxC;
         } else if (selectedBoundingButton == LEFT_SIDE) {
-            tempWidth = width + vx[0] - mx;
-            if (tempWidth >= MIN_SIZE) vx[0] = mx;
+            vx[0] = mxC; 
+            vx[3] = mxC;
         } else if (selectedBoundingButton == BOTTOM_SIDE) {
-            tempHeight = my - vy[0];
+            vy[3] = myC; 
+            vy[2] = myC;
         } else if (selectedBoundingButton == TOP_SIDE) {
-            tempHeight = height + vy[0] - my;
-            if (tempHeight >= MIN_SIZE) vy[0] = my;
-        }
-
-        if (tempWidth >= MIN_SIZE) width = tempWidth;
-        if (tempHeight >= MIN_SIZE) height = tempHeight;
+            vy[0] = myC; 
+            vy[1] = myC;
+        } 
         
+        width = vx[1] - vy[0]; 
+        height = vy[3] - vy[0];
+
+        rotatePoints(pivotX, pivotY, angle);
+        attRotateBtnCoordinate();
+        attBoundingButtonsPosition();
     }
 
     void resizeProportionally(float mx, float my) override{
-        rotatePoints(getCenterX(), getCenterY(), -angle);
+        float pivotX = getCenterX();
+        float pivotY = getCenterY();
 
-        float tempWidth = width;
-        float tempHeight = height;
+        float mxC = mx;
+        float myC = my;
+
+        rotatePoint(mxC, myC, pivotX, pivotY, -angle);
+        rotatePoints(pivotX, pivotY, -angle);
+        attBoundingButtonsPosition();
+
         if (selectedBoundingButton == RIGHT_SIDE) {
-            tempWidth = mx - vx[0];
-            tempHeight += tempWidth - width;
+            float distancia = mxC - boundingButtons[RIGHT_SIDE]->getCenterX();
+            vx[1] = mxC;
+            vx[2] = mxC;
+            vy[0] -= distancia;
+            vy[1] -= distancia;
         } else if (selectedBoundingButton == LEFT_SIDE) {
-            tempWidth = width + vx[0] - mx;
-            tempHeight += tempWidth - width;
-            if (tempWidth >= MIN_SIZE) vx[0] = mx;
+            float distancia = mxC - boundingButtons[LEFT_SIDE]->getCenterX();
+            vx[0] = mxC; 
+            vx[3] = mxC;
+            vy[3] -= distancia;
+            vy[2] -= distancia;
         } else if (selectedBoundingButton == BOTTOM_SIDE) {
-            tempHeight = my - vy[0];
-            tempWidth += tempHeight - height;
+            float distancia = myC - boundingButtons[BOTTOM_SIDE]->getCenterY();
+            vy[3] = myC; 
+            vy[2] = myC;
+            vx[0] -= distancia;
+            vx[3] -= distancia;
         } else if (selectedBoundingButton == TOP_SIDE) {
-            tempHeight = height + vy[0] - my;
-            tempWidth += tempHeight - height;
-            if (tempHeight >= MIN_SIZE) vy[0] = my;
-        }
+            float distancia = myC - boundingButtons[TOP_SIDE]->getCenterY();
+            vy[0] = myC; 
+            vy[1] = myC;
+            vx[1] -= distancia;
+            vx[2] -= distancia;
+        } 
+        
+        width = vx[1] - vy[0]; 
+        height = vy[3] - vy[0];
 
-        if (tempWidth >= MIN_SIZE) width = tempWidth;
-        if (tempHeight >= MIN_SIZE) height = tempHeight;
-        attPointsCoord();
-
-        rotatePoints(getCenterX(), getCenterY(), angle);
+        rotatePoints(pivotX, pivotY, angle);
+        attRotateBtnCoordinate();
+        attBoundingButtonsPosition();
     }
 
     bool hasRotateButtonCollided(float mx, float my) override{

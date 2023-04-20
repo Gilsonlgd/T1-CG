@@ -277,11 +277,23 @@ void handleStartChangeShapeColor(float x, float y) {
 
 void handleChangeShapeColor(float x, float y) {
    if (!isColoring) return;
+   bool hasSomeCollision = false;
 
    for (auto shape : shapesList) {
       if (shape->hasCollided(x, y)) {
          shape->setColor(selectedColor);
+         hasSomeCollision = true;
+         break;
       } 
+   }
+
+   if (hasSomeCollision) {
+      for (auto shape : shapesList) {
+         if (shape->isSelected()) {
+            shape->setColor(selectedColor);
+            hasSomeCollision = true;
+         } 
+      }
    }
 }
 
@@ -301,7 +313,6 @@ void handleStartShapeRotation(float x, float y) {
          shape->setRotating(true);
          shapeToRotate = shape;
          isRotating = true;
-         printf("\n\nAQUI\n\n");
          justStartRotating = true;
       }
    }

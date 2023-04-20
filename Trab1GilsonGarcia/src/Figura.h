@@ -37,54 +37,31 @@ protected:
     float angleRAD(float x1, float y1, float x2, float y2) {
         return (atan2(y1, x1) - atan2(y2, x2)) * 180.0 / PI;
     }
-
-    // Função para calcular o produto escalar de dois vetores
-    float dot(float ax, float ay, float bx, float by) {
-        return ax * bx + ay * by;
-    }
-
-    // Função para projetar um vetor em outro vetor
-    void project(float vx, float vy, float ux, float uy, float& px, float& py) {
-        float d = dot(vx, vy, ux, uy) / dot(ux, uy, ux, uy);
-        px = ux * d;
-        py = uy * d;
-    }
-
-    // Função para calcular a distância entre dois pontos na direção de um vetor unitário
-    float distance(float ax, float ay, float bx, float by, float ux, float uy) {
-        float abx = bx - ax;
-        float aby = by - ay;
-        float px, py;
-        project(abx, aby, ux, uy, px, py);
-        float dist = sqrt(px * px + py * py);
-        return dist;
-    }
-    /*
-    void rotatePoint(float& x1, float& x2, float pivotX, float pivotY, float angle) {
+    
+    void rotatePoint(float& x1, float& y1, float pivotX, float pivotY, float angle) {
         // Converte o ângulo para radianos
         float rad = (angle) * PI / 180.0;
         float rotMatrix[2][2] = {{cos(rad), -sin(rad)}, {sin(rad), cos(rad)}};
 
-        x -= pivotX;
-        y -= pivotY;
+        x1 -= pivotX;
+        y1 -= pivotY;
 
         // Rotaciona o ponto utilizando a matriz de rotação
-        float newX = x * rotMatrix[0][0] + y * rotMatrix[0][1];
-        float newY = x * rotMatrix[1][0] + y * rotMatrix[1][1];
+        float newX = x1 * rotMatrix[0][0] + y1 * rotMatrix[0][1];
+        float newY = x1 * rotMatrix[1][0] + y1 * rotMatrix[1][1];
 
-        x = newX;
-        y = newY;
+        x1 = newX;
+        y1 = newY;
 
         // Translada o ponto de volta para a sua posição original
-        x += pivotX;
-        y += pivotY;
+        x1 += pivotX;
+        y1 += pivotY;
     }
-    */
 
 
     void rotatePoints(float pivotX, float pivotY, float angle) {
         // Converte o ângulo para radianos
-        float rad = (angle*0.3) * PI / 180.0;
+        float rad = (angle) * PI / 180.0;
 
         float rotMatrix[2][2] = {{cos(rad), -sin(rad)}, {sin(rad), cos(rad)}};
 

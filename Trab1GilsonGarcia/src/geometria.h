@@ -19,6 +19,6 @@ public:
     static void rotatePoint(float& x, float& y, float pivotX, float pivotY, float angle);
 
     // recebe um angulo em graus e rotaciona todos os pontos dos vetores de acordo com um pivot
-    static void rotatePoints(vector<float>& vx, vector<float>& vy, float pivotX, float pivotY, float angle);
+    static void rotatePoints(float vx[], float vy[], int nPoints, float pivotX, float pivotY, float angle);
 };
 #endif // GEOMETRIA_H

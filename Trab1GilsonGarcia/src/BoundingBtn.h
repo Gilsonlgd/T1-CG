@@ -20,7 +20,7 @@ protected:
 
   void rotatePoint(float pivotX, float pivotY, float angle) {
     // Converte o ângulo para radianos
-    float rad = (angle*0.1) * PI / 180.0;
+    float rad = (angle) * PI / 180.0;
     float rotMatrix[2][2] = {{cos(rad), -sin(rad)}, {sin(rad), cos(rad)}};
 
     x -= pivotX;
