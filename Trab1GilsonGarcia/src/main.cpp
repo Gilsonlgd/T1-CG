@@ -37,6 +37,8 @@ using namespace std;
 
 Figura *newFigura = NULL;
 Figura *shapeToResize = NULL;
+Figura *shapeToRotate = NULL;
+
 Retangulo *rect = NULL;
 ToolBar *toolBar = NULL;
 list<Figura*> shapesList;
@@ -51,6 +53,7 @@ bool isCTRLdown = false;
 bool isSHIFTdown = false;
 bool criarFigura = false;
 bool isColoring = false;
+bool isRotating = false;
 int selectedColor = 0;
 
 
@@ -99,7 +102,9 @@ void render()
 
 void unselectAllShapes() {
    for (auto shape : shapesList) {
-      if (!shape->isResizing()) shape->setUnselected();
+      if (!shape->isResizing() && !shape->isRotating()) {
+         shape->setUnselected();
+      }
    }
 }
 
@@ -187,9 +192,8 @@ void handleStartResizingShape(float x, float y) {
       }
    }
    
-   if (justStartResizing) {
-      unselectAllShapes();
-   }
+   if (justStartResizing) unselectAllShapes();
+   
 }
 
 void handleResizeShape(float x, float y) {
@@ -281,6 +285,57 @@ void handleChangeShapeColor(float x, float y) {
    }
 }
 
+void deleteAllShapes() {
+   for (auto shape : shapesList) {
+      delete shape;
+   }
+   shapesList.clear();
+}
+
+void handleStartShapeRotation(float x, float y) {
+   if (isColoring) return;
+
+   bool justStartRotating = false;
+   for(auto shape : shapesList) {
+      if (shape->isSelected() && shape->hasRotateButtonCollided(x, y)) {
+         shape->setRotating(true);
+         shapeToRotate = shape;
+         isRotating = true;
+         printf("\n\nAQUI\n\n");
+         justStartRotating = true;
+      }
+   }
+
+   if(justStartRotating) unselectAllShapes();
+}
+
+void handleRotateShape(float x, float y) {
+   shapeToRotate->rotate(x, y);
+}
+
+void handelStopRotatingShape() {
+   if (isRotating) {
+      shapeToRotate->setRotating(false);
+      shapeToRotate = NULL;
+      isRotating = false;
+   }
+}
+
+void handleManageFile(float x, float y) {
+   int button = toolBar->checkMngButtonClicked(x, y);
+
+   if (button != NO_SELECTION) {
+      isColoring = false;
+      selectedColor = NO_SELECTION;
+   }
+
+   if (button == DELETE_ALL) {
+      deleteAllShapes();
+   } else if (button == SAVE_ALL) {
+      //salva arquivo
+   }
+}
+
 //funcao para tratamento de mouse: cliques, movimentos e arrastos
 void mouse(int button, int state, int wheel, int direction, int x, int y)
 {
@@ -289,22 +344,28 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
 
    if(state == 1) {
       isDragging = false;
+      handelStopRotatingShape();
       handleStopResizingShape();
    };
-   printf("\nmouse %d %d %d %d %d %d %d %d %d", button, state, wheel, direction,  x, y, isDragging, isResizing, isColoring);
 
    if( state == 0 ) //clicou
    {
       handleCreateShape(x, y);
       handleStartResizingShape(x,y);
+      handleStartShapeRotation(x, y);
+
       handleShapesSelection(x, y);
       handleStartDragShape(x, y);
+
       handleStartChangeShapeColor(x,y);
       handleChangeShapeColor(x, y);
+
+      handleManageFile(x,y);
    }
 
    if (isDragging) handleDragShape(x, y);
    if (isResizing) handleResizeShape(x, y);
+   if (isRotating) handleRotateShape(x, y);
 }
 
 int main(void)

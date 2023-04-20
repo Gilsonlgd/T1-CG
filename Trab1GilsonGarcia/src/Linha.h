@@ -11,20 +11,36 @@
 #define X_MARGIN         2
 #define TOL              2
 
+#include "Circulo.h"
 using namespace std;
 
 class Linha : public Figura {
+    BoundingBtn* rotateBtn;
+
 protected:
     void drawBoundingBox() {
-        int offset = BOUNDING_BTN_SIZE / 2;
         //resize buttons
-        Botao* botao = boundingButtons[TOP_SIDE];
-        botao->setCoord(vx[0] - offset, vy[0] - offset);
+        BoundingBtn* botao = boundingButtons[TOP_SIDE];
+        botao->setCoord(vx[0], vy[0]);
         botao->Render();
 
         botao = boundingButtons[BOTTOM_SIDE];
-        botao->setCoord(vx[1] - offset, vy[1] - offset);
+        botao->setCoord(vx[1], vy[1]);
         botao->Render();
+
+        rotateBtn->Render();
+    }
+
+    void attRotateBtnCoordinate() {
+        float dx = vx[1] - vx[0];
+        float dy = vy[1] - vy[0];
+        float len = sqrt(dx*dx + dy*dy);
+        dx /= len;
+        dy /= len;
+
+        float px_new = vx[1] + dx * 20;
+        float py_new = vy[1] + dy * 20;
+        rotateBtn->setCoord(px_new, py_new);
     }
 
     
@@ -34,6 +50,7 @@ public:
     Linha() : Figura(2) {
         offsetX = 0;
         offsetY = 0;
+        rotateBtn = new BoundingBtn(0, 0, BOUNDING_BTN_SIZE, INDEX14);
     }
 
     void render() override {
@@ -42,14 +59,6 @@ public:
         CV::translate(0,0);
         CV::line(vx[0], vy[0], vx[1], vy[1]);
         if(selected) drawBoundingBox();
-    }
-
-    float getCenterX() override{
-        return (vx[1]-vx[0])/2;
-    }
-
-    float getCenterY() override{
-        return (vy[1]-vy[0])/2;
     }
 
     void setOffset(float x, float y) override {
@@ -63,6 +72,7 @@ public:
         vy[0] = y - start_len/2;
         vx[1] = x;
         vy[1] = y + start_len/2;
+        rotateBtn->setCoord(vx[1], vy[1] + 20);
         visible = true;
     }
 
@@ -86,6 +96,7 @@ public:
         vy[0] = my - offsetY;
         vx[1] = mx + xDif - offsetX;
         vy[1] = my + yDif - offsetY;
+        attRotateBtnCoordinate();
     }
 
     void resize(float mx, float my) override {
@@ -100,6 +111,8 @@ public:
                 vy[0] = my;
             }
         }
+
+        attRotateBtnCoordinate();
     }
 
     void resizeProportionally(float mx, float my) override{
@@ -118,6 +131,33 @@ public:
                 vy[0] = my;
             }
         }
+
+        attRotateBtnCoordinate();
+    }
+
+    void rotate(float mx, float my) override {
+        float pivotX = getCenterX();
+        float pivotY = getCenterY();
+
+        float CBx = rotateBtn->getCenterX() - pivotX;
+        float CBy = rotateBtn->getCenterY() - pivotY;
+
+        float CMx = mx - pivotX;
+        float CMy = my - pivotY;
+
+        float newAngle = angleRAD(CMx, CMy, CBx, CBy);
+
+        if (abs(newAngle) > 180.0) {
+            newAngle = newAngle > 0 ? newAngle - 360.0 : newAngle + 360.0;
+        }
+        angle += newAngle;
+        rotatePoints(pivotX, pivotY, newAngle);
+        attRotateBtnCoordinate();
+    }
+
+
+    bool hasRotateButtonCollided(float mx, float my) override{
+        return rotateBtn->hasCollided(mx, my);
     }
 };
 

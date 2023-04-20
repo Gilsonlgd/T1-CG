@@ -20,8 +20,8 @@ class Circulo : public Figura {
 protected:
     void createBoundingButtons() {
         for (int i = 0; i < 4; i++) {
-            Botao* btn = new Botao(0, 0, BOUNDING_BTN_SIZE, BOUNDING_BTN_SIZE, "", RGBA);
-            btn->setColor(0, 0, 0, 1);
+            BoundingBtn* btn = new BoundingBtn(0, 0, BOUNDING_BTN_SIZE, INDEX14);
+            btn->setColor(0);
             boundingButtons.push_back(btn);
         }
     }
@@ -35,28 +35,35 @@ protected:
         CV::rect(0, 0, width, height);
         CV::translate(0, 0);
 
-        int offset = BOUNDING_BTN_SIZE / 2;
+       
         //resize buttons
-        Botao* botao = boundingButtons[LEFT_SIDE];
-        botao->setCoord(bx - offset, by - offset + height / 2);
+        BoundingBtn* botao = boundingButtons[LEFT_SIDE];
+        botao->setCoord(bx , by  + height / 2);
         botao->Render();
 
         botao = boundingButtons[RIGHT_SIDE];
-        botao->setCoord(bx - offset + width, by - offset + height / 2);
+        botao->setCoord(bx  + width, by  + height / 2);
         botao->Render();
 
         botao = boundingButtons[TOP_SIDE];
-        botao->setCoord(bx - offset + width / 2, by - offset);
+        botao->setCoord(bx  + width / 2, by );
         botao->Render();
 
         botao = boundingButtons[BOTTOM_SIDE];
-        botao->setCoord(bx - offset + width / 2, by - offset + height);
+        botao->setCoord(bx  + width / 2, by  + height);
         botao->Render();
     }
 
 public:
     Circulo() : Figura(1) {
         radius = 20;
+        offsetX = 0;
+        offsetY = 0;
+        createBoundingButtons();
+    }
+
+    Circulo(float radius) : Figura(1) {
+        this->radius = radius;
         offsetX = 0;
         offsetY = 0;
         createBoundingButtons();
@@ -102,18 +109,13 @@ public:
         y = my - offsetY;
     }
 
-    void resize(float mx, float my) override {
-        float tempRadius = radius;
-        if (selectedBoundingButton == RIGHT_SIDE) {
-            tempRadius = mx - x;
-        } else if (selectedBoundingButton == LEFT_SIDE) {
-            tempRadius = x - mx;
-        } else if (selectedBoundingButton == BOTTOM_SIDE) {
-            tempRadius = my - y;
-        } else if (selectedBoundingButton == TOP_SIDE) {
-            tempRadius = y - my;
-        }
+    void setPosition(float x, float y) {
+        this->x = x;
+        this->y = y;
+    }
 
+    void resize(float mx, float my) override {
+        float tempRadius = dist(mx, my, x, y);
         if(tempRadius >= MIN_RADIUS) radius = tempRadius;
     }
 

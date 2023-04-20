@@ -2,7 +2,9 @@
 #define CONSTANTS_H_INCLUDED
 
 //Botões
-#define BOUNDING_BTN_SIZE 8
+#define DELETE_ALL 0
+#define SAVE_ALL 1  
+#define BOUNDING_BTN_SIZE 4
 #define NO_SELECTION -1
 
 // Mouse
@@ -19,12 +21,12 @@
 #define CHAR_HEIGHT 10
 
 // Geometria
-#define PI 3.14159265359    // a constante
+#define PI 3.14159265358979323846    // a constante
 #define NUM_SEGMENTS 50     // num de segmentos triangulares para criar um circulo
-
 
 // Cores
 #define RGBA 0
 #define INDEX14 1
+#define CONTRAST_BOUND_COLOR 135, 206, 250
 
 #endif // CONSTANTS_H_INCLUDED

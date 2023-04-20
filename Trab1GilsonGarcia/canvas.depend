@@ -72,7 +72,7 @@
 
 1589217858 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\vector2.h
 
-1681782320 source:e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
+1681978322 source:e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -89,15 +89,16 @@
 	"ToolBar.h"
 	"constants.h"
 
-1681787584 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
+1681982657 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
 	"Figura.h"
 	"constants.h"
 	"Circulo.h"
+	<stdio.h>
 
-1681785921 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
+1681982723 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
 	<vector>
 	<cmath>
-	"Botao.h"
+	"BoundingBtn.h"
 
 1680625998 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\bola.h
 	"gl_canvas2d.h"
@@ -109,7 +110,7 @@
 	"gl_canvas2d.h"
 	"constants.h"
 
-1681785882 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
+1681966084 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
 
 1589218349 source:e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\relogio.cpp
 	"Relogio.h"
@@ -117,7 +118,7 @@
 	<stdio.h>
 	<stdlib.h>
 
-1681782351 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
+1681822661 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
 	"Figura.h"
 	"Retangulo.h"
 	"Circulo.h"
@@ -160,7 +161,7 @@
 
 1589217858 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\vector2.h
 
-1681412181 source:g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
+1681848607 source:g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -171,17 +172,20 @@
 	"Retangulo.h"
 	"Figura.h"
 	"Bola.h"
+	"Linha.h"
 	"Relogio.h"
 	"Botao.h"
 	"ToolBar.h"
 	"constants.h"
 
-1681413102 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
+1681849101 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
 	"Figura.h"
 	"constants.h"
+	"Circulo.h"
 
-1681410348 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
+1681849418 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
 	<vector>
+	<cmath>
 	"Botao.h"
 
 1680625998 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\bola.h
@@ -190,16 +194,19 @@
 1193164156 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\relogio.h
 	"gl_canvas2d.h"
 
-1681405709 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\botao.h
+1681785703 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\botao.h
 	"gl_canvas2d.h"
 	"constants.h"
 
-1681341507 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
+1681821922 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
 
-1681408117 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
+1681822653 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
 	"Figura.h"
 	"Retangulo.h"
+	"Circulo.h"
+	"Linha.h"
 	"Botao.h"
+	"ColorPicker.h"
 	<list>
 	<vector>
 	<cmath>
@@ -210,19 +217,42 @@
 	<stdio.h>
 	<stdlib.h>
 
-1681782351 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\circulo.h
+1681964778 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\circulo.h
 	<cmath>
 	"Figura.h"
 	"constants.h"
 
-1681787080 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\linha.h
+1681967536 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\linha.h
 	"Figura.h"
 	"constants.h"
+	"Circulo.h"
 
 1681782320 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\colorpicker.h
 	<iostream>
 	<vector>
 	"Botao.h"
+	"constants.h"
+	<cmath>
+
+1681835822 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\circulo.h
+	<cmath>
+	"Figura.h"
+	"constants.h"
+
+1681849205 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\linha.h
+	"Figura.h"
+	"constants.h"
+	"Circulo.h"
+
+1681782320 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\colorpicker.h
+	<iostream>
+	<vector>
+	"Botao.h"
+	"constants.h"
+	<cmath>
+
+1681966280 e:\pastas\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\boundingbtn.h
+	"gl_canvas2d.h"
 	"constants.h"
 	<cmath>
 

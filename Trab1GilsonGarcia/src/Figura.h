@@ -3,49 +3,104 @@
 
 #include <vector>
 #include <cmath>
-#include "Botao.h"
+#include "BoundingBtn.h"
 
 using namespace std;
 
 class Figura {
 protected:
-    bool visible, selected, resizing;
-    float r, g, b; //cor da figura
+    bool visible, selected, resizing, rotating;
+
     int nPoints;
     vector<float> vx, vy;
+    float angle;
     
     float x, y;
     float offsetX, offsetY;
 
+    float r, g, b;
     int indexColor;
     int colorScale;
-    vector<Botao*> boundingButtons;
+
+    vector<BoundingBtn*> boundingButtons;
     int selectedBoundingButton;
+
+    float segmentCenter(float x1, float x2) {
+        return (x1 + x2) / 2;
+    }
 
     float dist(float x1, float y1, float x2, float y2) {
         return sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));
     }
     
-    void rotatePoint(float& px, float& py, double angle) {
-        double s = sin(angle);
-        double c = cos(angle);
-
-        double x = px * c - py * s;
-        double y = px * s + py * c;
-
-        px = x;
-        py = y;
+    // retorna o angulo entre dois vetores (x1, y1) e (x2, y2) em rad
+    float angleRAD(float x1, float y1, float x2, float y2) {
+        return (atan2(y1, x1) - atan2(y2, x2)) * 180.0 / PI;
     }
 
-    void rotatePoints(float pivotX, float pivotY, double angle) {
+    // Função para calcular o produto escalar de dois vetores
+    float dot(float ax, float ay, float bx, float by) {
+        return ax * bx + ay * by;
+    }
+
+    // Função para projetar um vetor em outro vetor
+    void project(float vx, float vy, float ux, float uy, float& px, float& py) {
+        float d = dot(vx, vy, ux, uy) / dot(ux, uy, ux, uy);
+        px = ux * d;
+        py = uy * d;
+    }
+
+    // Função para calcular a distância entre dois pontos na direção de um vetor unitário
+    float distance(float ax, float ay, float bx, float by, float ux, float uy) {
+        float abx = bx - ax;
+        float aby = by - ay;
+        float px, py;
+        project(abx, aby, ux, uy, px, py);
+        float dist = sqrt(px * px + py * py);
+        return dist;
+    }
+    /*
+    void rotatePoint(float& x1, float& x2, float pivotX, float pivotY, float angle) {
+        // Converte o ângulo para radianos
+        float rad = (angle) * PI / 180.0;
+        float rotMatrix[2][2] = {{cos(rad), -sin(rad)}, {sin(rad), cos(rad)}};
+
+        x -= pivotX;
+        y -= pivotY;
+
+        // Rotaciona o ponto utilizando a matriz de rotação
+        float newX = x * rotMatrix[0][0] + y * rotMatrix[0][1];
+        float newY = x * rotMatrix[1][0] + y * rotMatrix[1][1];
+
+        x = newX;
+        y = newY;
+
+        // Translada o ponto de volta para a sua posição original
+        x += pivotX;
+        y += pivotY;
+    }
+    */
+
+
+    void rotatePoints(float pivotX, float pivotY, float angle) {
+        // Converte o ângulo para radianos
+        float rad = (angle*0.3) * PI / 180.0;
+
+        float rotMatrix[2][2] = {{cos(rad), -sin(rad)}, {sin(rad), cos(rad)}};
+
         for (int i = 0; i < nPoints; i++) {
-            // translada o ponto para o ponto de pivot
+            // Translada o ponto para o ponto de pivot
             vx[i] -= pivotX;
             vy[i] -= pivotY;
 
-            rotatePoint(vx[i], vy[i], angle);
+            // Rotaciona o ponto utilizando a matriz de rotação
+            float x = vx[i] * rotMatrix[0][0] + vy[i] * rotMatrix[0][1];
+            float y = vx[i] * rotMatrix[1][0] + vy[i] * rotMatrix[1][1];
 
-            // translada o ponto de volta para a sua posição original
+            vx[i] = x;
+            vy[i] = y;
+
+            // Translada o ponto de volta para a sua posição original
             vx[i] += pivotX;
             vy[i] += pivotY;
         }
@@ -53,11 +108,12 @@ protected:
 
     void createBoundingButtons() {
         for (int i = 0; i < nPoints + 1; i++) {
-            Botao* btn = new Botao(0, 0, BOUNDING_BTN_SIZE, BOUNDING_BTN_SIZE, "", RGBA);
-            btn->setColor(0, 0, 0, 1);
+            BoundingBtn* btn = new BoundingBtn(0, 0, BOUNDING_BTN_SIZE, INDEX14);
+            btn->setColor(0);
             boundingButtons.push_back(btn);
         }
     }
+    
 public:
     Figura(int nPoints) {
         r = 1;
@@ -68,6 +124,7 @@ public:
         resizing = false;
         selectedBoundingButton = NO_SELECTION;
         indexColor = 2;
+        angle = 0;
         colorScale = INDEX14;
         
         this->nPoints = nPoints;
@@ -121,6 +178,13 @@ public:
         return resizing;
     }
 
+    void setRotating(bool value) {
+        rotating = value;
+    }
+    bool isRotating() {
+        return rotating;
+    }
+
     bool isSelected() {
         return selected;
     }
@@ -156,14 +220,31 @@ public:
         return count % 2 == 1;
     }
 
+    virtual float getCenterX() {
+        float sum = 0;
+        for (int i = 0; i < nPoints; i++) {
+           sum += vx[i]; 
+        }
+
+        return sum / nPoints;
+    }
+
+    virtual float getCenterY() {
+        float sum = 0;
+        for (int i = 0; i < nPoints; i++) {
+           sum += vy[i]; 
+        }
+
+        return sum / nPoints;
+    }
+
+    virtual bool hasRotateButtonCollided(float mx, float my) { return false; };
     virtual void rotate(float mx, float my) {}
     virtual void resize(float mx, float my) {}
     virtual void resizeProportionally(float mx, float my) {}
     virtual void setVisible(float x, float y) {}
     virtual void setOffset(float x, float y) {}
     virtual void setMousePosition(float mx, float my) {}
-    virtual float getCenterX() {}
-    virtual float getCenterY() {}
 };
 
 #endif // FIGURA_H_INCLUDED

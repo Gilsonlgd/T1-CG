@@ -30,7 +30,7 @@ using namespace std;
 class ToolBar {
     float x, y, width, height;
     float r, g, b;
-    vector<char*> shapeButtonsLabel = {"Linha", "Retangulo", "Circulo", "Poligono"};
+    vector<char*> shapeButtonsLabel = {"Linha", "Retangulo", "Circulo"};
     vector<char*> managementButtonsLabel = {"Salvar Arquivo", "Excluir Tudo"};
 
     list<Botao*> shapeButtonsList;
@@ -124,13 +124,25 @@ public:
                 if (!strcmp(label, "Linha")) return new Linha();
                 else if ( !strcmp(label, "Retangulo") ) return new Retangulo();
                 else if ( !strcmp(label, "Circulo")   ) return new Circulo();
-                else if ( !strcmp(label, "Poligono")  ) return NULL;
                 else return NULL;
             }
         }
         return NULL;
     }
 
+    int checkMngButtonClicked(float mx, float my) {
+    
+        for (auto button : managementButtonsList) {
+            if (button->hasCollided(mx, my)) {
+                char* label = button->getLabel();
+                
+                if (!strcmp(label, "Salvar Arquivo")) return SAVE_ALL;
+                else if ( !strcmp(label, "Excluir Tudo")) return DELETE_ALL;
+                else return NO_SELECTION;
+            }
+        }
+        return NO_SELECTION;
+    }
     int checkColorButtonClicked(float mx, float my) {
         return colorPicker->getColorIndex(mx, my);
     }
