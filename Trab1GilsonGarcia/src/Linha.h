@@ -48,6 +48,7 @@ public:
     using Figura::setVisible;
 
     Linha() : Figura(2) {
+        ID = LINE_ID;
         offsetX = 0;
         offsetY = 0;
         rotateBtn = new BoundingBtn(0, 0, BOUNDING_BTN_SIZE, INDEX14);

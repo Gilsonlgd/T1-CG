@@ -10,9 +10,6 @@
 #define RIGHT_SIDE 1
 #define TOP_SIDE 2
 #define BOTTOM_SIDE 3
-#define MIN_SIZE 5
-// Limita a variação de ângulo a uma volta completa
-#define MAX_ANGLE_DELTA = 360.0f;
 
 using namespace std;
 
@@ -75,11 +72,15 @@ protected:
         rotateBtn->setCoord(px_new, py_new);
     }
 
-
+    void attDimensions() {
+        width = vx[1] - vy[0]; 
+        height = vy[3] - vy[0];
+    }
 public:
     using Figura::setVisible;
 
     Retangulo() : Figura(4) {
+        ID = RECT_ID;
         width = 40;
         height = 40;
         offsetX = 0;
@@ -185,9 +186,7 @@ public:
             vy[1] = myC;
         } 
         
-        width = vx[1] - vy[0]; 
-        height = vy[3] - vy[0];
-
+        attDimensions();
         rotatePoints(pivotX, pivotY, angle);
         attRotateBtnCoordinate();
         attBoundingButtonsPosition();
@@ -230,9 +229,7 @@ public:
             vx[2] -= distancia;
         } 
         
-        width = vx[1] - vy[0]; 
-        height = vy[3] - vy[0];
-
+        attDimensions();
         rotatePoints(pivotX, pivotY, angle);
         attRotateBtnCoordinate();
         attBoundingButtonsPosition();

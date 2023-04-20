@@ -9,13 +9,13 @@ using namespace std;
 
 class Figura {
 protected:
+    int ID;
     bool visible, selected, resizing, rotating;
 
     int nPoints;
     vector<float> vx, vy;
     float angle;
     
-    float x, y;
     float offsetX, offsetY;
 
     float r, g, b;
@@ -124,6 +124,42 @@ public:
 
     void setColor(int index) {
         indexColor = index;
+    }
+
+    float getColorR() {
+        return r;
+    }
+
+    float getColorG() {
+        return g;
+    }
+
+    float getColorB() {
+        return b;
+    }
+
+    int getIndexColor() {
+        return indexColor;
+    }
+
+    int getColorScale() {
+        return colorScale;
+    }
+
+    float getAngle() {
+        return angle;
+    }
+
+    int getType() {
+        return ID;
+    }
+
+    vector<float> getVx() {
+        return vx;
+    }
+
+    vector<float> getVy() {
+        return vy;
     }
 
     void setVisible() {

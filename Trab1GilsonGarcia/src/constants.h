@@ -29,4 +29,9 @@
 #define INDEX14 1
 #define CONTRAST_BOUND_COLOR 135, 206, 250
 
+// Figuras
+#define LINE_ID 0
+#define CIRCLE_ID 1
+#define RECT_ID 2
+
 #endif // CONSTANTS_H_INCLUDED

@@ -30,6 +30,7 @@
 #include "Relogio.h"
 #include "Botao.h"
 #include "ToolBar.h"
+#include "Export.h"
 
 #include "constants.h"
 
@@ -41,6 +42,7 @@ Figura *shapeToRotate = NULL;
 
 Retangulo *rect = NULL;
 ToolBar *toolBar = NULL;
+Export *exportData = NULL;
 list<Figura*> shapesList;
 
 //variavel global para selecao do que sera exibido na canvas.
@@ -343,7 +345,7 @@ void handleManageFile(float x, float y) {
    if (button == DELETE_ALL) {
       deleteAllShapes();
    } else if (button == SAVE_ALL) {
-      //salva arquivo
+      exportData = new Export(shapesList);
    }
 }
 

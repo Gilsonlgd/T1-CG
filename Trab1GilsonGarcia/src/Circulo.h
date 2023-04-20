@@ -14,7 +14,6 @@
 using namespace std;
 
 class Circulo : public Figura {
-    float x, y;
     float radius;
 
 protected:
@@ -28,7 +27,7 @@ protected:
 
     void drawBoundingBox() {
         float width = radius*2, height = radius*2;
-        float bx = x - radius, by = y - radius;
+        float bx = vx[0] - radius, by = vy[0] - radius;
 
         CV::color(0,0,0);
         CV::translate(bx, by);
@@ -56,6 +55,7 @@ protected:
 
 public:
     Circulo() : Figura(1) {
+        ID = CIRCLE_ID;
         radius = 20;
         offsetX = 0;
         offsetY = 0;
@@ -63,6 +63,7 @@ public:
     }
 
     Circulo(float radius) : Figura(1) {
+        ID = CIRCLE_ID;
         this->radius = radius;
         offsetX = 0;
         offsetY = 0;
@@ -70,7 +71,7 @@ public:
     }
 
     void render() override {
-        CV::translate(x, y);
+        CV::translate(vx[0], vy[0]);
         if (colorScale == RGBA) CV::color(r,g,b); 
         else if (colorScale == INDEX14)  CV::color(indexColor);
         CV::circleFill(0, 0, radius, NUM_SEGMENTS);
@@ -79,43 +80,47 @@ public:
     }
 
     float getCenterX() override{
-        return x;
+        return vx[0];
     }
     float getCenterY() override{
-        return y;
+        return vy[0];
+    }
+
+    float getRadius() {
+        return radius;
     }
 
     void setOffset(float x, float y) override {
-        offsetX = x - this->x;
-        offsetY = y - this->y;
+        offsetX = x - this->vx[0];
+        offsetY = y - this->vy[0];
     }
 
     void setVisible(float x, float y) override {
-        this->x = x;
-        this->y = y;
+        this->vx[0] = x;
+        this->vy[0] = y;
         visible = true;
     }
 
     bool hasCollided(int mx, int my) override {
         if (selectedBoundingButton >= 0 && selected) return false;
 
-        float mouseDist = sqrt( pow(mx - x, 2) + pow(my - y, 2));
+        float mouseDist = sqrt( pow(mx - vx[0], 2) + pow(my - vy[0], 2));
         if (mouseDist < radius) return true;
         return false;
     }
 
     void setMousePosition(float mx, float my) override {
-        x = mx - offsetX;
-        y = my - offsetY;
+        vx[0] = mx - offsetX;
+        vy[0] = my - offsetY;
     }
 
     void setPosition(float x, float y) {
-        this->x = x;
-        this->y = y;
+        this->vx[0] = x;
+        this->vy[0] = y;
     }
 
     void resize(float mx, float my) override {
-        float tempRadius = dist(mx, my, x, y);
+        float tempRadius = dist(mx, my, vx[0], vy[0]);
         if(tempRadius >= MIN_RADIUS) radius = tempRadius;
     }
 

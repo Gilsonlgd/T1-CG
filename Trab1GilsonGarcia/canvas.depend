@@ -161,7 +161,7 @@
 
 1589217858 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\vector2.h
 
-1681991077 source:g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
+1682016118 source:g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\main.cpp
 	<GL/glut.h>
 	<GL/freeglut_ext.h>
 	<math.h>
@@ -176,15 +176,16 @@
 	"Relogio.h"
 	"Botao.h"
 	"ToolBar.h"
+	"Export.h"
 	"constants.h"
 
-1682012129 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
+1682017043 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\retangulo.h
 	"Figura.h"
 	"constants.h"
 	"Circulo.h"
 	<stdio.h>
 
-1682009502 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
+1682015248 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\figura.h
 	<vector>
 	<cmath>
 	"BoundingBtn.h"
@@ -199,7 +200,7 @@
 	"gl_canvas2d.h"
 	"constants.h"
 
-1681966084 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
+1682012912 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\constants.h
 
 1681822653 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\toolbar.h
 	"Figura.h"
@@ -235,12 +236,12 @@
 	"constants.h"
 	<cmath>
 
-1681964778 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\circulo.h
+1682015558 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\circulo.h
 	<cmath>
 	"Figura.h"
 	"constants.h"
 
-1681967536 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\linha.h
+1682012919 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\linha.h
 	"Figura.h"
 	"constants.h"
 	"Circulo.h"
@@ -261,4 +262,15 @@
 	"gl_canvas2d.h"
 	"constants.h"
 	<cmath>
+
+1682016623 g:\outros computadores\meu computador\ufsm copia\5 semestre\cg\t1\trab1gilsongarcia\src\export.h
+	"gl_canvas2d.h"
+	"Figura.h"
+	"Circulo.h"
+	<iostream>
+	<fstream>
+	<iterator>
+	<list>
+	<vector>
+	<string>
 
