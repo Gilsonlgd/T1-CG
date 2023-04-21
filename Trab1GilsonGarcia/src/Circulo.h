@@ -13,10 +13,17 @@
 
 using namespace std;
 
+/*
+##### Círculo #####
+Círculo
+######################
+*/
+
 class Circulo : public Figura {
     float radius;
 
 protected:
+    // instancia os botões de borda 
     void createBoundingButtons() {
         for (int i = 0; i < 4; i++) {
             BoundingBtn* btn = new BoundingBtn(0, 0, BOUNDING_BTN_SIZE, INDEX14);
@@ -25,6 +32,7 @@ protected:
         }
     }
 
+    // desenha a caixa contorno (sinaliza que está selecionado)
     void drawBoundingBox() {
         float width = radius*2, height = radius*2;
         float bx = vx[0] - radius, by = vy[0] - radius;
@@ -70,6 +78,7 @@ public:
         createBoundingButtons();
     }
 
+     // construtor utilizado na ao se instanciar um objeto originário de um arquivo
     Circulo(vector<float> vx, vector<float> vy, float radius, float angle, 
     int colorScale, float r, float g, float b, int indexColor) : Figura(1) {
         
@@ -107,17 +116,22 @@ public:
         return radius;
     }
 
+    // define um valor que subtraído a posição do mouse 
+    // evita saltos
     void setOffset(float x, float y) override {
         offsetX = x - this->vx[0];
         offsetY = y - this->vy[0];
     }
 
+    // seta a figura visível em deperminada posição
     void setVisible(float x, float y) override {
         this->vx[0] = x;
         this->vy[0] = y;
         visible = true;
     }
 
+    // se a distancia entre o centro e o mouse for menor que o raio,
+    // colidiu
     bool hasCollided(int mx, int my) override {
         if (selectedBoundingButton >= 0 && selected) return false;
 
@@ -126,21 +140,25 @@ public:
         return false;
     }
 
+    // utiliza a posição do mouse para mover a figura
     void setMousePosition(float mx, float my) override {
         vx[0] = mx - offsetX;
         vy[0] = my - offsetY;
     }
 
+    // redefine a posição do circulo
     void setPosition(float x, float y) {
         this->vx[0] = x;
         this->vy[0] = y;
     }
 
+    // altera o raio de acordo com a posição do mouse
     void resize(float mx, float my) override {
         float tempRadius = dist(mx, my, vx[0], vy[0]);
         if(tempRadius >= MIN_RADIUS) radius = tempRadius;
     }
 
+    // faz o mesmo da anterior
     void resizeProportionally(float mx, float my) override {
         resize(mx, my);
     }

@@ -11,6 +11,14 @@ using namespace std;
 #include <list>
 #include <vector>
 #include <string>
+
+/*
+##### EXPORT #####
+Classe utilizada para exportar o arquivo das figuras
+bem simples apenas escreve os dados de cada figura no arquivo
+######################
+*/
+
 class Export{
 
 public:
@@ -28,17 +36,14 @@ public:
         int tamList = shapesList.size();
 
         ofstream arquivo("./Trab1GilsonGarcia/figuras.gr", ios::out | ios::binary | ios::trunc);
-        printf("\n\n AQUUI\n\n");
         if (arquivo.is_open()) {
             arquivo.write(reinterpret_cast<char*>(&tamList), sizeof(tamList));
-            printf("\n\n AQUUI2\n\n");
             for (it = shapesList.begin(); it != shapesList.end(); ++it){
                 int shapeType = (*it)->getType();
                 angle = (*it)->getAngle();
                 vx = (*it)->getVx();
                 vy = (*it)->getVy();
                 nPoints = vx.size();
-                printf("\n\n AQUUI3\n\n");
                 if (shapeType == CIRCLE_ID) {
                     Figura *fig = (*it);
                     Circulo* circ = dynamic_cast<Circulo*>(fig);

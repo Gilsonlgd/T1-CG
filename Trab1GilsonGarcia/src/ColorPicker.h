@@ -13,6 +13,13 @@
 #define COLORS_LEN   14
 #define BTN_SIZE     35
 
+/*
+##### COLORPICKER #####
+Classe que define a sessão de escolha de cor para
+preenchimento das figuras. É utilizada na toolbar
+######################
+*/
+
 using namespace std;
 
 class ColorPicker {
@@ -23,7 +30,7 @@ private:
         int b;
 
     };
-
+    // calcula o espaço entre as colunas e linhas da grade de cores
     int calculateXPadding(int index) {
         if (index < 2) return 0;
         int coluna = floor(index / 2);
@@ -32,6 +39,7 @@ private:
 
     vector<Botao*> colors;
 public:
+    // recebe um cociente de translação da coordenada X
     ColorPicker(float translationX) {
         float btn_width = BTN_SIZE;
         float btn_height = BTN_SIZE;
@@ -56,6 +64,7 @@ public:
         }
     }
 
+    // de acordo com o btão clicado retorna a cor selecioanda
     int getColorIndex(float x, float y) {
         for (auto btn : colors) {
             if (btn->hasCollided(x, y)) {

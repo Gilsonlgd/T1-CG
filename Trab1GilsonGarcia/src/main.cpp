@@ -25,9 +25,7 @@
 
 #include "Retangulo.h"
 #include "Figura.h"
-#include "Bola.h"
 #include "Linha.h"
-#include "Relogio.h"
 #include "Botao.h"
 #include "ToolBar.h"
 #include "Export.h"
@@ -51,15 +49,15 @@ Import *importData = NULL;
 //variavel global para selecao do que sera exibido na canvas.
 int opcao  = 50;
 int screenWidth = 1200, screenHeight = 700; //largura e altura inicial da tela . Alteram com o redimensionamento de tela.
-int mouseX, mouseY; //variaveis globais do mouse para poder exibir dentro da render().
-bool isDragging = false;
-bool isResizing = false;
-bool isCTRLdown = false;
-bool isSHIFTdown = false;
-bool criarFigura = false;
-bool isColoring = false;
-bool isRotating = false;
-int selectedColor = 0;
+int mouseX, mouseY;           //variaveis globais do mouse para poder exibir dentro da render().
+bool isDragging = false;      // estah arrastando?
+bool isResizing = false;      // estah redimensionando uma figura? só pode uma por vez
+bool isCTRLdown = false;      // estah segurando o ctrl?
+bool isSHIFTdown = false;     // estah segurando o shift?
+bool criarFigura = false;     // estah esperando para criar uma figura?
+bool isRotating = false;      // estah rotacionando uma figura? só pode uma por vez
+bool isColoring = false;      // o pointer de colorir está ativo?
+int selectedColor = 0;        // cor selecionada
 
 
 bool isMouseInsideDrawBounds(float x, float y) {
@@ -78,6 +76,7 @@ void DrawShapes()
    }
 }
 
+// desenha o pointer que indica que estamos com a ferramente de "balde"
 void DrawColoringPointer() {
    if (!isMouseInsideDrawBounds(mouseX, mouseY)) return;
    
@@ -96,6 +95,8 @@ void render()
    if (isColoring) DrawColoringPointer();
 }
 
+
+// DESseleciona todas as figuras que não estejam rotacionando ou redimensionando
 void unselectAllShapes() {
    for (auto shape : shapesList) {
       if (!shape->isResizing() && !shape->isRotating()) {
@@ -117,14 +118,14 @@ void handleDeleteSelectedShapes()
 //funcao chamada toda vez que uma tecla for pressionada.
 void keyboard(int key)
 {
-   printf("\nTecla: %d" , key);
    if( key < 200 )
    {
       opcao = key;
    }
 
    switch(key)
-   {
+   {  
+      // esc limpa as seleções
       case ESC:
 	     unselectAllShapes();
         isColoring = false;
@@ -145,7 +146,6 @@ void keyboard(int key)
 //funcao chamada toda vez que uma tecla for liberada
 void keyboardUp(int key)
 {
-   printf("\nLiberou: %d" , key);
    switch(key)
    {
       case CTRL:
@@ -157,6 +157,7 @@ void keyboardUp(int key)
    }
 }
 
+// trata a criação de uma figura. é necessário dois cliques para isso
 void handleCreateShape(float x, float y)
 {
    if (criarFigura && !newFigura->isVisible()) {
@@ -174,6 +175,7 @@ void handleCreateShape(float x, float y)
    }
 }
 
+// define as variáveis que indicam que algo estah sendo redimensionado
 void handleStartResizingShape(float x, float y) {
    if(isColoring) return;
    auto listBegin = shapesList.begin();
@@ -196,6 +198,7 @@ void handleStartResizingShape(float x, float y) {
    
 }
 
+// realiza o redimensionamento
 void handleResizeShape(float x, float y) {
    if (isSHIFTdown) {
       shapeToResize->resizeProportionally(x, y);
@@ -204,6 +207,7 @@ void handleResizeShape(float x, float y) {
    }
 }
 
+// define as variáveis que indicam que algo não estah sendo redimensionado
 void handleStopResizingShape() {
    if (isResizing) {
       shapeToResize->setResizing(false);
@@ -212,6 +216,7 @@ void handleStopResizingShape() {
    }
 }
 
+// trata toda a seleção de figuras. Se segura CTRL pode selecionar vários 
 void handleShapesSelection(float x, float y)
 {
    list<Figura*> auxList = {};
@@ -239,6 +244,7 @@ void handleShapesSelection(float x, float y)
    }
 }
 
+// define as variáveis que indicam que algo estah sendo arrastado
 void handleStartDragShape(float x, float y) {  
    if(isColoring) return;
    auto listBegin = shapesList.begin();
@@ -263,6 +269,7 @@ void handleStartDragShape(float x, float y) {
    }
 }
 
+// trata o arrasto das figuras. se selecionar várias, manter CTRL e arrastar, arrasta várias
 void handleDragShape(float x, float y) {
    if (!isMouseInsideDrawBounds(x, y) || isResizing || isRotating) return;
 
@@ -273,6 +280,7 @@ void handleDragShape(float x, float y) {
    }
 }
 
+// define as variáveis que indicam que o mouse está pronto para colorir figuras
 void handleStartChangeShapeColor(float x, float y) {
    int tempColor = toolBar->checkColorButtonClicked(x, y);
 
@@ -282,6 +290,9 @@ void handleStartChangeShapeColor(float x, float y) {
    }
 }
 
+// trata as colisões e mudanças de cores. 
+// se selecionar várias, manter CTRL, selecionar uma cor
+// e clicar em uma das figuras selecionada, muda a cor de todas
 void handleChangeShapesColor(float x, float y) {
    if (!isColoring) return;
    bool hasSomeCollision = false;
@@ -307,6 +318,7 @@ void handleChangeShapesColor(float x, float y) {
    }
 }
 
+// faz o que o nome diz
 void deleteAllShapes() {
    for (auto shape : shapesList) {
       delete shape;
@@ -314,6 +326,7 @@ void deleteAllShapes() {
    shapesList.clear();
 }
 
+// define as variáveis que indicam que algo estah sendo rotacionado 
 void handleStartShapeRotation(float x, float y) {
    if (isColoring) return;
    auto listBegin = shapesList.begin();
@@ -333,10 +346,12 @@ void handleStartShapeRotation(float x, float y) {
    if(justStartRotating) unselectAllShapes();
 }
 
+// trata a rotação
 void handleRotateShape(float x, float y) {
    shapeToRotate->rotate(x, y);
 }
 
+// define as variáveis que indicam que algo não estah sendo rotacionado 
 void handelStopRotatingShape() {
    if (isRotating) {
       shapeToRotate->setRotating(false);
@@ -345,6 +360,7 @@ void handelStopRotatingShape() {
    }
 }
 
+// trata os clique na sesão de managemente da toolbar
 void handleManageFile(float x, float y) {
    int button = toolBar->checkMngButtonClicked(x, y);
 

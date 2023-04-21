@@ -11,15 +11,23 @@
 #define TOP_SIDE 2
 #define BOTTOM_SIDE 3
 
+/*
+##### RETÂNGULO #####
+Este retângulo foi implementado utilizando polígono.
+Todos os métodos de translação e rotação são orientados a isso
+######################
+*/
+
 using namespace std;
 
 class Retangulo : public Figura {
     float width;
     float height;
-    BoundingBtn* rotateBtn;
+    BoundingBtn* rotateBtn; // botão de rotação
 
 protected:
-
+    // atualiza a posição dos botões de redimensionamento 
+    // de acordo com as arestas
     void attBoundingButtonsPosition() {
         BoundingBtn* botao = boundingButtons[LEFT_SIDE];
         botao->setCoord(segmentCenter(vx[0], vx[3]) , segmentCenter(vy[0], vy[3]));
@@ -34,6 +42,7 @@ protected:
         botao->setCoord(segmentCenter(vx[3], vx[2]) , segmentCenter(vy[3], vy[2]));
     }
 
+    // desenha a caixa contorno (sinaliza que está selecionado)
     void drawBoundingBox() {
         CV::color(0,0,0);
         CV::translate(0, 0);
@@ -46,6 +55,7 @@ protected:
         rotateBtn->Render();
     }
 
+    // atualiza as corrdenadas do retângulo de acordo com a origem, largura e altura
     void attPointsCoord() {
         float origemX = vx[0];
         float origemY = vy[0];
@@ -60,6 +70,7 @@ protected:
         vy[3] = origemY + height;
     }
 
+    //atualiza a coordenada do botão de rotação de acordo com a posição da figura
     void attRotateBtnCoordinate() {
         float dx = vx[2] - vx[3];
         float dy = vy[2] - vy[3];
@@ -89,6 +100,7 @@ public:
         attPointsCoord();
     }
 
+    // construtor utilizado na ao se instanciar um objeto originário de um arquivo
     Retangulo(vector<float> vx, vector<float> vy, float angle, 
     int colorScale, float r, float g, float b, int indexColor) : Figura(4) {
         
@@ -116,6 +128,8 @@ public:
         if(selected) drawBoundingBox();
     }
 
+    // define um valor que subtraído a posição do mouse 
+    // evita saltos
     void setOffset(float x, float y) override {
         rotatePoints(getCenterX(), getCenterY(), -angle);
         float origemX = vx[0];
@@ -126,6 +140,7 @@ public:
         rotatePoints(getCenterX(), getCenterY(), angle);  
     }
 
+    // seta a figura visível em deperminada posição
     void setVisible(float x, float y) override {
         vx[0] = x - getCenterX();
         vy[0] = y - getCenterY();
@@ -135,6 +150,7 @@ public:
         rotateBtn->setCoord(vx[2] + 20, vy[2]);
     }
 
+    // utiliza a posição do mouse para mover a figura
     void setMousePosition(float mx, float my) override {
         rotatePoints(getCenterX(), getCenterY(), -angle);
 
@@ -156,6 +172,9 @@ public:
         attRotateBtnCoordinate(); 
     }
 
+    // utiliza a posição do mouse para mover a figura.
+    // - calcula o ângulo entre o botão de rotação da figura
+    // e a nova posição do mouse para definir a rotação dos pontos da figura
     void rotate(float mx, float my) override {
         float pivotX = getCenterX();
         float pivotY = getCenterY();
@@ -177,6 +196,8 @@ public:
         rotatePoints(pivotX, pivotY, newAngle);
     }
 
+    // rotaciona a figura no sentido oposto para poder
+    // alterar os pontos do retângulo de acordo com os eixos coordenados
     void resize(float mx, float my) override {
         float pivotX = getCenterX();
         float pivotY = getCenterY();
@@ -212,6 +233,8 @@ public:
         attBoundingButtonsPosition();
     }
 
+    // faz o mesmo da função anterior porém de forma proporcional 
+    // Movimenta a aresta selecionada e a aresta perpendicular a ela
     void resizeProportionally(float mx, float my) override{
         float pivotX = getCenterX();
         float pivotY = getCenterY();

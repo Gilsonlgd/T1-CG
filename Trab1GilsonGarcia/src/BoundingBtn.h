@@ -4,6 +4,13 @@
 #include "gl_canvas2d.h"
 #include "constants.h"
 #include <cmath>
+/*
+##### BOUNDINGBTN #####
+Classe que define um botão de borda
+eles podem ser utilizados para redimensionar figuras
+e rotacioná-las. No futuro podem fazer mais coisas hehe
+######################
+*/
 
 class BoundingBtn {
   float radius, x, y;
@@ -13,8 +20,7 @@ class BoundingBtn {
   int indexColor;
 
 protected:
-
-
+  // função que rotaciona um ponto de acordo com angulo em graus e pivot
   void rotatePoint(float pivotX, float pivotY, float angle) {
     // Converte o ângulo para radianos
     float rad = (angle) * PI / 180.0;

@@ -11,13 +11,19 @@
 #define X_MARGIN         2
 #define TOL              2
 
-#include "Circulo.h"
 using namespace std;
+
+/*
+##### LINHA #####
+Foi implementada a partir de dois pontos
+######################
+*/
 
 class Linha : public Figura {
     BoundingBtn* rotateBtn;
 
 protected:
+    // desenha a caixa contorno (sinaliza que está selecionado)
     void drawBoundingBox() {
         //resize buttons
         BoundingBtn* botao = boundingButtons[TOP_SIDE];
@@ -30,7 +36,7 @@ protected:
 
         rotateBtn->Render();
     }
-
+    //atualiza a coordenada do botão de rotação de acordo com a posição da figura
     void attRotateBtnCoordinate() {
         float dx = vx[1] - vx[0];
         float dy = vy[1] - vy[0];
@@ -54,6 +60,7 @@ public:
         rotateBtn = new BoundingBtn(0, 0, BOUNDING_BTN_SIZE, INDEX14);
     }
 
+    // construtor utilizado na ao se instanciar um objeto originário de um arquivo
     Linha(vector<float> vx, vector<float> vy, float angle, 
     int colorScale, float r, float g, float b, int indexColor) : Figura(2) {
         
@@ -78,11 +85,14 @@ public:
         if(selected) drawBoundingBox();
     }
 
+    // define um valor que subtraído a posição do mouse 
+    // evita saltos
     void setOffset(float x, float y) override {
         offsetX = x - this->vx[0];
         offsetY = y - this->vy[0];
     }
 
+    // seta a figura visível em deperminada posição
     void setVisible(float x, float y) override {
         float start_len = START_LEN;
         vx[0] = x;
@@ -93,6 +103,7 @@ public:
         visible = true;
     }
 
+    // Colidiu?
     bool hasCollided(int mx, int my) override {
         if (selectedBoundingButton >= 0 && selected) return false;
 
@@ -106,6 +117,7 @@ public:
         return false;
     }
 
+    // utiliza a posição do mouse para mover a figura
     void setMousePosition(float mx, float my) override {
         float xDif = vx[1] - vx[0];
         float yDif = vy[1] - vy[0];
@@ -132,26 +144,9 @@ public:
         attRotateBtnCoordinate();
     }
 
-    void resizeProportionally(float mx, float my) override{
-        if (selectedBoundingButton == BOTTOM_SIDE) {
-            if(dist(mx, my, vx[0], vy[0]) > MIN_LEN) {
-                vx[0] += -(mx - vx[1]);
-                vy[0] += -(my - vy[1]);
-                vx[1] = mx;
-                vy[1] = my;
-            }
-        } else if (selectedBoundingButton == TOP_SIDE) {
-            if(dist(mx, my, vx[1], vy[1]) > MIN_LEN) {
-                vx[1] += -(mx - vx[0]);
-                vy[1] += -(my - vy[0]);
-                vx[0] = mx;
-                vy[0] = my;
-            }
-        }
-
-        attRotateBtnCoordinate();
-    }
-
+    // utiliza a posição do mouse para mover a figura.
+    // - calcula o ângulo entre o botão de rotação da figura
+    // e a nova posição do mouse para definir a rotação dos pontos da figura
     void rotate(float mx, float my) override {
         float pivotX = getCenterX();
         float pivotY = getCenterY();
@@ -172,6 +167,26 @@ public:
         attRotateBtnCoordinate();
     }
 
+    // ao mudar uma coordenada da linha, a outra será alterada na mesma proporção
+    void resizeProportionally(float mx, float my) override{
+        if (selectedBoundingButton == BOTTOM_SIDE) {
+            if(dist(mx, my, vx[0], vy[0]) > MIN_LEN) {
+                vx[0] += -(mx - vx[1]);
+                vy[0] += -(my - vy[1]);
+                vx[1] = mx;
+                vy[1] = my;
+            }
+        } else if (selectedBoundingButton == TOP_SIDE) {
+            if(dist(mx, my, vx[1], vy[1]) > MIN_LEN) {
+                vx[1] += -(mx - vx[0]);
+                vy[1] += -(my - vy[0]);
+                vx[0] = mx;
+                vy[0] = my;
+            }
+        }
+
+        attRotateBtnCoordinate();
+    }
 
     bool hasRotateButtonCollided(float mx, float my) override{
         return rotateBtn->hasCollided(mx, my);

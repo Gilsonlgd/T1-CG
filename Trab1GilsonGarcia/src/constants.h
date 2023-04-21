@@ -1,5 +1,11 @@
 #ifndef CONSTANTS_H_INCLUDED
 #define CONSTANTS_H_INCLUDED
+/*
+##### constants #####
+Algumas constantes interessantes
+######################
+*/
+
 
 //Botões
 #define DELETE_ALL 0

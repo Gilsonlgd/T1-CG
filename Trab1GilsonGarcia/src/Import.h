@@ -11,6 +11,12 @@ using namespace std;
 #include <list>
 #include <vector>
 #include <string>
+/*
+##### IMPORT #####
+Classe utilizada para carregar o arquivo das figuras
+bem simples apenas lê os dados de cada figura no arquivo
+######################
+*/
 
 class Import{
 public:

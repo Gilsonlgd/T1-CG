@@ -25,6 +25,15 @@
 #define BTN_WIDTH_LG    200
 #define BTM_HEIGHT_LG    60
 
+/*
+##### TOOLBAR #####
+Barra de ferramentas customizável.
+É possível adicionar botões em cada uma das 3 sessões
+sem que haja problemas de sobreposição
+basta adicionar um botão à lista de labels da sessão
+######################
+*/
+
 using namespace std;
 
 class ToolBar {
@@ -38,12 +47,14 @@ class ToolBar {
 
     ColorPicker* colorPicker;
 protected:
+    // calcula o espaço entre as colunas e linhas da grade de cores
     int calculateXPadding(int index) {
         if (index < 2) return 0;
         int coluna = floor(index / 2);
         return PADDING*coluna;
     }
 
+    // posiciona todos os botões
     void createButtons(vector<char*> labelsList, list<Botao*>& buttonsList, float translationX, float _width) {
         float btn_width = _width;
         float btn_height = BTN_HEIGHT_MD;
@@ -63,16 +74,19 @@ protected:
         }
     }
 
+    // denha uma linha de limite de sessão
     void drawLimitLine(float sessionOffset, float r, float g, float b, float a) {
         CV::color(r/255, g/255, b/255, a);
         CV::line(sessionOffset + 8, 5, sessionOffset + 8, height -5);
     }
 
+    // retorna a largura da sessão de adm do arquivo
     float getMngSessionWidth() {
         const int mngColumns = trunc((managementButtonsLabel.size() + 1) / 2);
         return mngColumns * BTN_WIDTH_LG + mngColumns * PADDING + MARGIN_LEFT;
     }
 
+    // retorna a largura da sessão de figuras
     float getShapesSessionWidth() {
         const int mngColumns = trunc((shapeButtonsList.size() + 1) / 2);
         return mngColumns * BTN_WIDTH_MD + mngColumns * PADDING + MARGIN_LEFT;
@@ -116,6 +130,8 @@ public:
         colorPicker->render();
     }
 
+    // se um botão de criar figura foi clicado, retorna uma instância desta figura
+    // NULL se nada foi clicado
     Figura* checkShapeButtonClicked(float mx, float my) {
         for (auto button : shapeButtonsList) {
             if (button->hasCollided(mx, my)) {
@@ -130,6 +146,7 @@ public:
         return NULL;
     }
 
+    //se um botão management foi clicado, retorna o id deste botão
     int checkMngButtonClicked(float mx, float my) {
     
         for (auto button : managementButtonsList) {
@@ -143,6 +160,8 @@ public:
         }
         return NO_SELECTION;
     }
+
+    //se um botão de cor foi clicado, retorna a cor selecionada
     int checkColorButtonClicked(float mx, float my) {
         return colorPicker->getColorIndex(mx, my);
     }

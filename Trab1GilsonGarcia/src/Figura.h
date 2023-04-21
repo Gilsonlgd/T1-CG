@@ -25,19 +25,29 @@ protected:
     vector<BoundingBtn*> boundingButtons;
     int selectedBoundingButton;
 
+    //### FUNÇÕES GEOMÉTRICAS ###//
+    //  aqui não é o melhor lugar mas          //
+    //  o compilador não queria que eu criasse //
+    //  uma classe pra essas coisas            // 
+
+    // calcula o centro de um segmento coordenado
     float segmentCenter(float x1, float x2) {
         return (x1 + x2) / 2;
     }
 
+    // calcula a distancia entre dois pontos
+    // pode ser visto também como o módulo de um vetor
     float dist(float x1, float y1, float x2, float y2) {
         return sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));
     }
     
-    // retorna o angulo entre dois vetores (x1, y1) e (x2, y2) em rad
+    // retorna o angulo entre dois vetores (x1, y1) e (x2, y2) em graus
     float angleDEG(float x1, float y1, float x2, float y2) {
         return (atan2(y1, x1) - atan2(y2, x2)) * 180.0 / PI;
     }
     
+    // rotaciona em angle um ponto (x1, y1) com relação a um pivot
+    // recebe o angle em graus e transforma para RAD
     void rotatePoint(float& x1, float& y1, float pivotX, float pivotY, float angle) {
         // Converte o ângulo para radianos
         float rad = (angle) * PI / 180.0;
@@ -58,7 +68,8 @@ protected:
         y1 += pivotY;
     }
 
-
+    // rotaciona em angle os pontos da figura com relação a um pivot
+    // recebe o angle em graus e transforma para RAD
     void rotatePoints(float pivotX, float pivotY, float angle) {
         // Converte o ângulo para radianos
         float rad = (angle) * PI / 180.0;
@@ -83,6 +94,7 @@ protected:
         }
     }
 
+    // instancia os botões de borda das figuras (utilizados para redimensionamento e rotação)
     void createBoundingButtons() {
         for (int i = 0; i < nPoints + 1; i++) {
             BoundingBtn* btn = new BoundingBtn(0, 0, BOUNDING_BTN_SIZE, INDEX14);
@@ -202,7 +214,8 @@ public:
         return selected;
     }
 
-    int hasBoundingBtnCollided(float mx, float my) {
+    // clicou em algum botão de redirecionamento? 
+    bool hasBoundingBtnCollided(float mx, float my) {
         for (unsigned int i = 0; i < boundingButtons.size(); i++) {
             auto btn = boundingButtons[i];
             if (btn->hasCollided(mx, my)) {
@@ -213,7 +226,7 @@ public:
         return false;
     }
 
-    // Algorimot Ray Casting de detecção de colisão.
+    // Algorimo Ray Casting de detecção de colisão.
     virtual bool hasCollided(int x, int y) {
         if (selectedBoundingButton >= 0 && selected) return false;
 
@@ -251,6 +264,8 @@ public:
         return sum / nPoints;
     }
 
+    // algumas funções virtuais que são inerentes a todas as instâncias da classe mas
+    // que serão sobrescritas
     virtual bool hasRotateButtonCollided(float mx, float my) { return false; };
     virtual void rotate(float mx, float my) {}
     virtual void resize(float mx, float my) {}
