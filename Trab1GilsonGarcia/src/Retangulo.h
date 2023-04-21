@@ -84,8 +84,10 @@ protected:
     }
 
     void attDimensions() {
+        rotatePoints(getCenterX(), getCenterY(), -angle);
         width = vx[1] - vy[0]; 
         height = vy[3] - vy[0];
+        rotatePoints(getCenterX(), getCenterY(), angle);
     }
 public:
     using Figura::setVisible;

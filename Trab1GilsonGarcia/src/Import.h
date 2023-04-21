@@ -20,7 +20,6 @@ bem simples apenas lê os dados de cada figura no arquivo
 
 class Import{
 public:
-    std::list<Figura*>::iterator it;
     list<Figura*> lista;
 
     Import(){

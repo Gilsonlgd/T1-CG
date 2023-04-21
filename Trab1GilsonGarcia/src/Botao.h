@@ -4,6 +4,14 @@
 #include "gl_canvas2d.h"
 #include "constants.h"
 
+/*
+##### BOTAO #####
+Botao disponibilizado pelo professor
+foram feitas algumas alterações como centralização do label
+e alteração da escala de cores
+######################
+*/
+
 class Botao{
   float altura, largura, x, y;
   bool isVisible;

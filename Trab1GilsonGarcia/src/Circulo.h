@@ -15,7 +15,7 @@ using namespace std;
 
 /*
 ##### Círculo #####
-Círculo
+Implementa um circulo simples
 ######################
 */
 

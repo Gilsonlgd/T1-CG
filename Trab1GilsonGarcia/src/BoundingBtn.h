@@ -8,7 +8,7 @@
 ##### BOUNDINGBTN #####
 Classe que define um botão de borda
 eles podem ser utilizados para redimensionar figuras
-e rotacioná-las. No futuro podem fazer mais coisas hehe
+e rotacioná-las. No futuro poderao fazer mais coisas hehe
 ######################
 */
 

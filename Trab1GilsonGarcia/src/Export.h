@@ -20,9 +20,7 @@ bem simples apenas escreve os dados de cada figura no arquivo
 */
 
 class Export{
-
 public:
-    std::list<Figura*>::iterator it;
 
     Export(list<Figura*> shapesList){
         vector<float> vx, vy;
@@ -38,7 +36,7 @@ public:
         ofstream arquivo("./Trab1GilsonGarcia/figuras.gr", ios::out | ios::binary | ios::trunc);
         if (arquivo.is_open()) {
             arquivo.write(reinterpret_cast<char*>(&tamList), sizeof(tamList));
-            for (it = shapesList.begin(); it != shapesList.end(); ++it){
+            for (auto it = shapesList.begin(); it != shapesList.end(); ++it){
                 int shapeType = (*it)->getType();
                 angle = (*it)->getAngle();
                 vx = (*it)->getVx();

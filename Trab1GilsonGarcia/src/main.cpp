@@ -1,16 +1,41 @@
 /*********************************************************************
 // Canvas para desenho, criada sobre a API OpenGL. Nao eh necessario conhecimentos de OpenGL para usar.
-//  Autor: Cesar Tadeu Pozzer
-//         05/2020
+//  Autor: Gilson Garcia
+//         04/2023
 //
-//  Pode ser utilizada para fazer desenhos, animacoes, e jogos simples.
-//  Tem tratamento de mouse e teclado
-//  Estude o OpenGL antes de tentar compreender o arquivo gl_canvas.cpp
+// ! - Leia as intruções de uso no arquivo README.txt que acompanha o código. - !
+//  
+//	      Quesitos mínimos implementados:
+//     Todos os quesitos mínimos foram implementados:
+//     - Inserir/excluir figura.
+//     - Editar cor da figura.
+//     - Editar tamanho da figura.
+//     - Editar orientação da figura (giros de 90 graus).
+//     - Enviar para frente/traz.
+//     - Salvar em arquivo e carregar de arquivo.
+//       
+//       Quesitos extra implementados:
+//     Aos quesitos não previstos, estimei um valor para a pontuação extra deles.
+//     - (+0,5) Sinalizar qual figura está selecionada.
+//     - (+1,0) Rotacionar figura em qualquer ângulo.
+//     - (+1,0) Rotação e Redimensionamento orientados ao mouse e botões.    
+//     - (+0,5) Opção de redimensionamento proporcional e desproporcional para linhas e retangulos
+//     - (+1,0) Toolbar para gerenciamento de botões.  
+//       - (+0,5) Estruturação e criação da classe. 
+//       - (+0,5) Responsividade (se for necessário adicionar botões em qualquer uma das sessões, a toolbar não perde a forma, espaçamentos definido a partir de defines)
+//       - Total da toolbar = 1,0
+//     - (+0,5) Color Pointer (alude ferramenta de balde. Ao selecionar uma cor para pintar figuras, no ponteiro do mouse é sinalizada a cor com a qual se está pintando)
+//     - (+1,5) Selecionar várias figuras.
+//       - (+0,5) É possível excluir todas as figuras selecionadas.
+//       - (+0,5) É possível arrastar todas as figuras selecionadas.
+//       - (+0,5) É possível pintar todas as figuras selecionadas.
+//       - Total da Multi Seleção = 1,5
+//     - (+0,5) Opção de excluir todas as figuras da tela
+//     - (+0,5) Pequenos cuidados de interface
+//       - O Color Pointer não aparece quando o mouse estiver em cima da toolbar
+//       - Se estiver com a ferramenta de balde, ao clicar para criar nova figura, a ferramenta é desativada.
+//       - Não é possível tirar uma figura dos limites da tela, nem para baixo da toolbar
 //
-//  Versao 2.0
-//
-//  Instru��es:
-//	  Para alterar a animacao, digite numeros entre 1 e 3
 // *********************************************************************/
 
 #include <GL/glut.h>
