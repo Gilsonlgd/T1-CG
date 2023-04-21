@@ -34,7 +34,7 @@ protected:
     }
     
     // retorna o angulo entre dois vetores (x1, y1) e (x2, y2) em rad
-    float angleRAD(float x1, float y1, float x2, float y2) {
+    float angleDEG(float x1, float y1, float x2, float y2) {
         return (atan2(y1, x1) - atan2(y2, x2)) * 180.0 / PI;
     }
     

@@ -11,9 +11,6 @@ using namespace std;
 #include <list>
 #include <vector>
 #include <string>
-
-using namespace std;
-
 class Export{
 
 public:
@@ -28,18 +25,20 @@ public:
         float r, g, b; 
         int colorScale, indexColor;
 
-        vector<BoundingBtn*> boundingButtons;
         int tamList = shapesList.size();
 
-        ofstream arquivo("./Trab1GilsonGarcia/figuras.gr", ios::out | ios::binary);
+        ofstream arquivo("./Trab1GilsonGarcia/figuras.gr", ios::out | ios::binary | ios::trunc);
+        printf("\n\n AQUUI\n\n");
         if (arquivo.is_open()) {
             arquivo.write(reinterpret_cast<char*>(&tamList), sizeof(tamList));
+            printf("\n\n AQUUI2\n\n");
             for (it = shapesList.begin(); it != shapesList.end(); ++it){
                 int shapeType = (*it)->getType();
                 angle = (*it)->getAngle();
                 vx = (*it)->getVx();
                 vy = (*it)->getVy();
                 nPoints = vx.size();
+                printf("\n\n AQUUI3\n\n");
                 if (shapeType == CIRCLE_ID) {
                     Figura *fig = (*it);
                     Circulo* circ = dynamic_cast<Circulo*>(fig);
@@ -69,11 +68,10 @@ public:
                 arquivo.write(reinterpret_cast<char*>(&indexColor), sizeof(indexColor));
             }
             arquivo.close();
-            printf("\nSALVOU\n");
+            printf("\nArquivo Salvo com Sucesso!\n");
         } else {
-            cout << "Erro ao abrir o arquivo." << endl;
+            cout << "Erro ao abrir o arquivo para exportar." << endl;
         }
-
     }
 
 

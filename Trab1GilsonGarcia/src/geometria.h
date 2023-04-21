@@ -13,7 +13,7 @@ public:
     static float dist(float x1, float y1, float x2, float y2);
 
     // retorna o angulo entre dois vetores (x1, y1) e (x2, y2) em rad
-    static float angleRAD(float x1, float y1, float x2, float y2);
+    static float angleDEG(float x1, float y1, float x2, float y2);
 
     // rotaciona um ponto de acordo com um angulo em graus e um pivot
     static void rotatePoint(float& x, float& y, float pivotX, float pivotY, float angle);

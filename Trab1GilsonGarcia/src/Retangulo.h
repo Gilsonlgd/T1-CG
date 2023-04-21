@@ -89,6 +89,24 @@ public:
         attPointsCoord();
     }
 
+    Retangulo(vector<float> vx, vector<float> vy, float angle, 
+    int colorScale, float r, float g, float b, int indexColor) : Figura(4) {
+        
+        ID = RECT_ID;
+        this->vx = vx;
+        this->vy = vy;
+        this->angle = angle;
+        this->colorScale = colorScale;
+        this->r = r;
+        this->g = g;
+        this->b = b;
+        this->indexColor = indexColor;
+        rotateBtn = new BoundingBtn(0, 0, BOUNDING_BTN_SIZE, INDEX14);
+        attDimensions();
+        attBoundingButtonsPosition();
+        attRotateBtnCoordinate();
+    }
+
     void render() override {
         CV::translate(0, 0);
         if (colorScale == RGBA) CV::color(r,g,b);
@@ -148,14 +166,12 @@ public:
         float CMx = mx - pivotX;
         float CMy = my - pivotY;
 
-        float newAngle = angleRAD(CMx, CMy, CBx, CBy);
-
-        if (abs(newAngle) > 180.0) {
-            newAngle = newAngle > 0 ? newAngle - 360.0 : newAngle + 360.0;
-        }
+        float newAngle = angleDEG(CMx, CMy, CBx, CBy);
         
         angle += newAngle;
-        if(angle <= -360 || angle >= 360) angle = 0;
+        if(abs(angle) > 360) {
+            angle = angle > 0 ? angle - 360.0 : angle + 360.0;
+        }
 
         rotateBtn->rotate(pivotX, pivotY, newAngle);
         rotatePoints(pivotX, pivotY, newAngle);
@@ -173,17 +189,21 @@ public:
         attBoundingButtonsPosition();
 
         if (selectedBoundingButton == RIGHT_SIDE) {
-            vx[1] = mxC;
-            vx[2] = mxC;
+            float distancia = mxC - boundingButtons[RIGHT_SIDE]->getCenterX();
+            vx[1] += distancia;
+            vx[2] += distancia;
         } else if (selectedBoundingButton == LEFT_SIDE) {
-            vx[0] = mxC; 
-            vx[3] = mxC;
+            float distancia = mxC - boundingButtons[LEFT_SIDE]->getCenterX();
+            vx[0] += distancia; 
+            vx[3] += distancia;
         } else if (selectedBoundingButton == BOTTOM_SIDE) {
-            vy[3] = myC; 
-            vy[2] = myC;
+            float distancia = myC - boundingButtons[BOTTOM_SIDE]->getCenterY();
+            vy[3] += distancia; 
+            vy[2] += distancia;
         } else if (selectedBoundingButton == TOP_SIDE) {
-            vy[0] = myC; 
-            vy[1] = myC;
+            float distancia = myC - boundingButtons[TOP_SIDE]->getCenterY();
+            vy[0] += distancia; 
+            vy[1] += distancia;
         } 
         
         attDimensions();
@@ -205,26 +225,26 @@ public:
 
         if (selectedBoundingButton == RIGHT_SIDE) {
             float distancia = mxC - boundingButtons[RIGHT_SIDE]->getCenterX();
-            vx[1] = mxC;
-            vx[2] = mxC;
+            vx[1] += distancia;
+            vx[2] += distancia;
             vy[0] -= distancia;
             vy[1] -= distancia;
         } else if (selectedBoundingButton == LEFT_SIDE) {
             float distancia = mxC - boundingButtons[LEFT_SIDE]->getCenterX();
-            vx[0] = mxC; 
-            vx[3] = mxC;
+            vx[0] += distancia; 
+            vx[3] += distancia;
             vy[3] -= distancia;
             vy[2] -= distancia;
         } else if (selectedBoundingButton == BOTTOM_SIDE) {
             float distancia = myC - boundingButtons[BOTTOM_SIDE]->getCenterY();
-            vy[3] = myC; 
-            vy[2] = myC;
+            vy[3] += distancia; 
+            vy[2] += distancia;
             vx[0] -= distancia;
             vx[3] -= distancia;
         } else if (selectedBoundingButton == TOP_SIDE) {
             float distancia = myC - boundingButtons[TOP_SIDE]->getCenterY();
-            vy[0] = myC; 
-            vy[1] = myC;
+            vy[0] += distancia; 
+            vy[1] += distancia;
             vx[1] -= distancia;
             vx[2] -= distancia;
         } 

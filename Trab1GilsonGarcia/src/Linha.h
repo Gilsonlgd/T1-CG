@@ -54,6 +54,22 @@ public:
         rotateBtn = new BoundingBtn(0, 0, BOUNDING_BTN_SIZE, INDEX14);
     }
 
+    Linha(vector<float> vx, vector<float> vy, float angle, 
+    int colorScale, float r, float g, float b, int indexColor) : Figura(2) {
+        
+        ID = LINE_ID;
+        this->vx = vx;
+        this->vy = vy;
+        this->angle = angle;
+        this->colorScale = colorScale;
+        this->r = r;
+        this->g = g;
+        this->b = b;
+        this->indexColor = indexColor;
+        rotateBtn = new BoundingBtn(0, 0, BOUNDING_BTN_SIZE, INDEX14);
+        attRotateBtnCoordinate();
+    }
+
     void render() override {
         if (colorScale == RGBA) CV::color(r,g,b); 
         else if (colorScale == INDEX14)  CV::color(indexColor);
@@ -146,7 +162,7 @@ public:
         float CMx = mx - pivotX;
         float CMy = my - pivotY;
 
-        float newAngle = angleRAD(CMx, CMy, CBx, CBy);
+        float newAngle = angleDEG(CMx, CMy, CBx, CBy);
 
         if (abs(newAngle) > 180.0) {
             newAngle = newAngle > 0 ? newAngle - 360.0 : newAngle + 360.0;

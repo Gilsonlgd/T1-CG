@@ -13,10 +13,7 @@ class BoundingBtn {
   int indexColor;
 
 protected:
-  // retorna o angulo entre dois vetores (x1, y1) e (x2, y2) em rad
-  float angleRAD(float x1, float y1, float x2, float y2) {
-    return (atan2(y1, x1) - atan2(y2, x2)) * 180.0 / PI;
-  }
+
 
   void rotatePoint(float pivotX, float pivotY, float angle) {
     // Converte o ângulo para radianos

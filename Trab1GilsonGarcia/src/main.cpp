@@ -31,6 +31,7 @@
 #include "Botao.h"
 #include "ToolBar.h"
 #include "Export.h"
+#include "Import.h"
 
 #include "constants.h"
 
@@ -42,8 +43,10 @@ Figura *shapeToRotate = NULL;
 
 Retangulo *rect = NULL;
 ToolBar *toolBar = NULL;
-Export *exportData = NULL;
 list<Figura*> shapesList;
+
+Export *exportData = NULL;
+Import *importData = NULL;
 
 //variavel global para selecao do que sera exibido na canvas.
 int opcao  = 50;
@@ -66,15 +69,6 @@ bool isMouseInsideDrawBounds(float x, float y) {
       }
    };
    return false;
-}
-
-void DrawMouseScreenCoords()
-{
-   char str[100];
-   sprintf(str, "Mouse: (%d,%d)", mouseX, mouseY);
-   CV::text(10,300, str);
-   sprintf(str, "Screen: (%d,%d)", screenWidth, screenHeight);
-   CV::text(10,320, str);
 }
 
 void DrawShapes()
@@ -182,9 +176,13 @@ void handleCreateShape(float x, float y)
 
 void handleStartResizingShape(float x, float y) {
    if(isColoring) return;
+   auto listBegin = shapesList.begin();
+   auto listEnd = shapesList.end();
 
    bool justStartResizing = false;
-   for (auto shape : shapesList) {
+   for (auto it = prev(listEnd); it != prev(listBegin); it--) {
+      auto shape = *it;
+
       if (shape->isSelected() && shape->hasBoundingBtnCollided(x, y)) {
          shape->setResizing(true);
          shapeToResize = shape;
@@ -224,13 +222,16 @@ void handleShapesSelection(float x, float y)
       unselectAllShapes();
    }
 
-   for (auto shape = prev(listEnd); shape != prev(listBegin); shape--){
-      if ( (*shape)->hasCollided(x, y) ) {
-         shapesList.erase(shape);
-         (*shape)->setSelected();
-         auxList.push_front(*shape);
+   for (auto it = prev(listEnd); it != prev(listBegin); it--){
+      auto shape = *it;
+      if ( shape->hasCollided(x, y)) {
+         shapesList.erase(it);
+
+         shape->setSelected();
+         auxList.push_front(shape);
          break;
       } 
+      if (isResizing || isRotating) break;
    }
 
    for (auto shape : auxList) {
@@ -240,9 +241,12 @@ void handleShapesSelection(float x, float y)
 
 void handleStartDragShape(float x, float y) {  
    if(isColoring) return;
+   auto listBegin = shapesList.begin();
+   auto listEnd = shapesList.end();
 
    bool hasSomeCollision = false;
-   for (auto shape : shapesList) {
+   for (auto it = prev(listEnd); it != prev(listBegin); it--) {
+      auto shape = *it;
       if (shape->hasCollided(x, y)) {
          hasSomeCollision = true;
          break;
@@ -260,7 +264,7 @@ void handleStartDragShape(float x, float y) {
 }
 
 void handleDragShape(float x, float y) {
-   if (!isMouseInsideDrawBounds(x, y)) return;
+   if (!isMouseInsideDrawBounds(x, y) || isResizing || isRotating) return;
 
    for (auto shape : shapesList) {
       if(shape->isSelected() && isDragging) {
@@ -271,17 +275,21 @@ void handleDragShape(float x, float y) {
 
 void handleStartChangeShapeColor(float x, float y) {
    int tempColor = toolBar->checkColorButtonClicked(x, y);
+
    if (tempColor != NO_SELECTION && tempColor != selectedColor) {
       selectedColor = tempColor;
       isColoring = true;
    }
 }
 
-void handleChangeShapeColor(float x, float y) {
+void handleChangeShapesColor(float x, float y) {
    if (!isColoring) return;
    bool hasSomeCollision = false;
+   auto listBegin = shapesList.begin();
+   auto listEnd = shapesList.end();
 
-   for (auto shape : shapesList) {
+   for (auto it = prev(listEnd); it != prev(listBegin); it--) {
+      auto shape = *it;
       if (shape->hasCollided(x, y)) {
          shape->setColor(selectedColor);
          hasSomeCollision = true;
@@ -308,9 +316,12 @@ void deleteAllShapes() {
 
 void handleStartShapeRotation(float x, float y) {
    if (isColoring) return;
+   auto listBegin = shapesList.begin();
+   auto listEnd = shapesList.end();
 
    bool justStartRotating = false;
-   for(auto shape : shapesList) {
+   for(auto it = prev(listEnd); it != prev(listBegin); it--) {
+      auto shape = *it;
       if (shape->isSelected() && shape->hasRotateButtonCollided(x, y)) {
          shape->setRotating(true);
          shapeToRotate = shape;
@@ -367,11 +378,11 @@ void mouse(int button, int state, int wheel, int direction, int x, int y)
       handleStartResizingShape(x,y);
       handleStartShapeRotation(x, y);
 
+      handleStartChangeShapeColor(x,y);
+      handleChangeShapesColor(x, y);
+
       handleShapesSelection(x, y);
       handleStartDragShape(x, y);
-
-      handleStartChangeShapeColor(x,y);
-      handleChangeShapeColor(x, y);
 
       handleManageFile(x,y);
    }
@@ -385,6 +396,9 @@ int main(void)
 {
    toolBar = new ToolBar(0, 0, screenWidth, 100);
    newFigura = new Figura(0);
+
+   importData = new Import();
+   shapesList = importData->getShapesList();
 
    CV::init(&screenWidth, &screenHeight, "");
    CV::run();

@@ -70,10 +70,27 @@ public:
         createBoundingButtons();
     }
 
+    Circulo(vector<float> vx, vector<float> vy, float radius, float angle, 
+    int colorScale, float r, float g, float b, int indexColor) : Figura(1) {
+        
+        ID = CIRCLE_ID;
+        this->vx = vx;
+        this->vy = vy;
+        this->radius = radius;
+        this->angle = angle;
+        this->colorScale = colorScale;
+        this->r = r;
+        this->g = g;
+        this->b = b;
+        this->indexColor = indexColor;
+        createBoundingButtons();
+    }
+
     void render() override {
         CV::translate(vx[0], vy[0]);
         if (colorScale == RGBA) CV::color(r,g,b); 
         else if (colorScale == INDEX14)  CV::color(indexColor);
+        
         CV::circleFill(0, 0, radius, NUM_SEGMENTS);
         CV::translate(0, 0);
         if(selected) drawBoundingBox();
